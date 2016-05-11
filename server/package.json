@@ -1,0 +1,23 @@
+{
+  "name": "ha-remote-server",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Web and REST server running as a backend to the HA remote application.",
+  "main": "app/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app/server.js"
+  },
+  "author": "Jonas",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "dateformat": "^1.0.12",
+    "express": "~4.0.0",
+    "jshashes": "^1.0.5",
+    "jsmin": "^1.0.1",
+    "morgan": "^1.7.0",
+    "request": "^2.72.0",
+    "winston": "^2.2.0"
+  }
+}

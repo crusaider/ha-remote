@@ -1,0 +1,10 @@
+.menu-item-button {
+  width:100%;
+  text-align:left !important;
+}
+
+md-icon.big-logo {
+  width: 35%;
+  height: initial;
+}
+

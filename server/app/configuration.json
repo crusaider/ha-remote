@@ -1,0 +1,40 @@
+{
+    "controls": [
+        {
+            "caption": "Vardagsrum",
+            "device_id": "group.vardagsrum",
+            "service": {
+                "domain": "switch",
+                "onService": "turn_on",
+                "offService": "turn_off"
+            }
+        },
+        {
+            "caption": "Kontor",
+            "device_id": "group.kontor",
+            "service": {
+                "domain": "switch",
+                "onService": "turn_on",
+                "offService": "turn_off"
+            }
+        },
+        {
+            "caption": "Allrum",
+            "device_id": "group.allrum",
+            "service": {
+                "domain": "switch",
+                "onService": "turn_on",
+                "offService": "turn_off"
+            }
+        },
+        {
+            "caption": "Sovrum & Gästrum",
+            "device_id": "group.sovrum__gstrum",
+            "service": {
+                "domain": "switch",
+                "onService": "turn_on",
+                "offService": "turn_off"
+            }
+        }
+    ]
+}

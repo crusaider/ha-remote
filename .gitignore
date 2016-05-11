@@ -1,0 +1,10 @@
+logs/*
+!.gitkeep
+/client/node_modules/
+/server/node_modules/
+/client/bower_components/
+tmp
+.DS_Store
+.idea
+/client/app/jspm_packages
+/.vscode/
