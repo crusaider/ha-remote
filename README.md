@@ -2,9 +2,9 @@
 A simplified GUI for Home Assistant making is possible to choose a subset of devices managed by a Home Assistant installation and make them visible in a separate GUI from home assistant.
 The main idea behind the project has been to make easier to "sell" home automation to not to technical family members by mimicing physical controls but still makeing them available in a mobile device.
 # Screenshots
-`![Alt Main Screen](screenshots/buttons-screen.png "Main Screen")`
-`![Alt Menu](screenshots/menu.png "Menu")`
-`![Alt Login screen](screenshots/login-screen.png "Login Screen")`
+![Alt Main Screen](screenshots/buttons-screen.png "Main Screen")
+![Alt Menu](screenshots/menu.png "Menu")
+![Alt Login screen](screenshots/login-screen.png "Login Screen")
 # Installation and configuration
 
 ## Installation
