@@ -24,6 +24,7 @@
     self.powerOn = powerOn;
     self.powerOff = powerOff;
     self.powerOffAll = powerOffAll;
+    self.powerOnAll = powerOnAll;
 
 
     // Load controls configuration
@@ -36,7 +37,7 @@
       }, function (error) {
         self.showProgress = false;
         self.showControls = false;
-        $translate('CONFIG_LOAD_FAILED').then(function(message){
+        $translate('CONFIG_LOAD_FAILED').then(function (message) {
           showToast(message);
         });
       });
@@ -53,19 +54,19 @@
       self.showProgress = true;
 
       powerControlService.powerOn(control.id)
-      .then(function(){
-        self.showProgress = false;
-        $translate( 'POWER_ON_SUCCESS', { control_caption: control.caption } )
-          .then( function(message){
-           showToast( message );
-        });
-      }, function(){
-        self.showProgress = false;
-        $translate( 'POWER_ON_FAILURE', { control_caption: control.caption } )
-          .then( function(message){
-           showToast( message );
-        });
-      })
+        .then(function () {
+          self.showProgress = false;
+          $translate('POWER_ON_SUCCESS', { control_caption: control.caption })
+            .then(function (message) {
+              showToast(message);
+            });
+        }, function () {
+          self.showProgress = false;
+          $translate('POWER_ON_FAILURE', { control_caption: control.caption })
+            .then(function (message) {
+              showToast(message);
+            });
+        })
     }
 
     /**
@@ -76,19 +77,19 @@
       self.showProgress = true;
 
       powerControlService.powerOff(control.id)
-      .then(function(){
-        self.showProgress = false;
-        $translate( 'POWER_OFF_SUCCESS', { control_caption: control.caption } )
-          .then( function(message){
-           showToast( message );
-        });
-      }, function(){
-        self.showProgress = false;
-        $translate( 'POWER_OFF_FAILURE', { control_caption: control.caption } )
-          .then( function(message){
-           showToast( message );
-        });
-      })
+        .then(function () {
+          self.showProgress = false;
+          $translate('POWER_OFF_SUCCESS', { control_caption: control.caption })
+            .then(function (message) {
+              showToast(message);
+            });
+        }, function () {
+          self.showProgress = false;
+          $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
+            .then(function (message) {
+              showToast(message);
+            });
+        })
     }
 
     /**
@@ -98,48 +99,41 @@
       $log.debug("Power off all clicked.");
       self.showProgress = true;
 
-      var results = {
-        sucessed: [],
-        failed: [],
+      results = new MultiOperationResult();
 
-        isComplete: function (controlCount) {
-          return sucessed + failed == controlCount;
-        },
-
-        failCount: function () {
-          return failed.length;
-        },
-
-        sucessCount: function () {
-          return sucessed.length;
-        },
-
-        addSucess: function (control) {
-          sucessed.push(control);
-        },
-
-        addFailure: function (control) {
-          failed.push(control)
-        }
-      }
-
-
-      self.controls.forEach(function (control, id) {
+      self.controls.forEach(function (control) {
         powerControlService.powerOff(control.id)
           .then(function () {
-            if (id == self.controls.length - 1) {
-              self.showProgress = false;
-              showToast(control.caption + " powered off.");
-            }
+            results.addSucess(control);
+            powerOffAllCallback(results);
           }, function () {
-            if (id == self.controls.length - 1) {
-              self.showProgress = false;
-            }
-            showToast("Failed to power off " + control.caption + ".");
+            results.addFailure(control);
+            powerOffAllCallback(results);
           })
-
       })
     }
+
+    /**
+    * Power off all controls
+    */
+    function powerOnAll() {
+      $log.debug("Power on all clicked.");
+      self.showProgress = true;
+
+      results = new MultiOperationResult();
+
+      self.controls.forEach(function (control) {
+        powerControlService.powerOn(control.id)
+          .then(function () {
+            results.addSucess(control);
+            powerOnAllCallback(results);
+          }, function () {
+            results.addFailure(control);
+            powerOnAllCallback(results);
+          })
+      })
+    }
+
 
     /**
      * Show simple toast with a message.
@@ -147,5 +141,57 @@
     function showToast(message) {
       $mdToast.show($mdToast.simple().textContent(message));
     }
+
+    function powerOffAllCallback(results) {
+      if (results.isComplete(self.controls.length)) {
+        self.showProgress = false;
+        if (results.failCount() == 0) {
+          showToast("Powered off everyting.");
+        } else {
+          showToast("Could not power off everything.");
+        }
+      }
+
+    }
+    
+    function powerOnAllCallback(results) {
+      if (results.isComplete(self.controls.length)) {
+        self.showProgress = false;
+        if (results.failCount() == 0) {
+          showToast("Powered on everyting.");
+        } else {
+          showToast("Could not power on everything.");
+        }
+      }
+
+    }
+
   }
+
+
+  function MultiOperationResult() {
+    this.sucessed = [];
+    this.failed = [];
+  }
+
+  MultiOperationResult.prototype.isComplete = function (controlCount) {
+    return this.sucessed.length + this.failed.length == controlCount;
+  };
+
+  MultiOperationResult.prototype.failCount = function () {
+    return this.failed.length;
+  };
+
+  MultiOperationResult.prototype.sucessCount = function () {
+    return this.sucessed.length;
+  };
+
+  MultiOperationResult.prototype.addSucess = function (control) {
+    this.sucessed.push(control);
+  };
+
+  MultiOperationResult.prototype.addFailure = function (control) {
+    this.failed.push(control)
+  };
+
 })();
