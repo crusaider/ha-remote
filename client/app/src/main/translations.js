@@ -14,6 +14,10 @@
         POWER_ON_FAILURE: 'Failed to power on {{control_caption}}',
         POWER_OFF_SUCCESS: '{{control_caption}} powered off',
         POWER_OFF_FAILURE: 'Failed to power off {{control_caption}}',
+        POWER_ON_ALL_SUCCESS: 'Everything powered on',
+        POWER_ON_ALL_FAILURE: 'Could not power everything on',
+        POWER_OFF_ALL_SUCCESS: 'Everything powered off',
+        POWER_OFF_ALL_FAILURE: 'Could not power everything off',
         CONFIG_LOAD_FAILED: "Could not load configuration",
         W_SERVER_VERSION: "Server version",
         W_CLIENT_VERSION: "Client version",
@@ -36,6 +40,10 @@
         POWER_ON_FAILURE: 'Kunde inte tända {{control_caption}}',
         POWER_OFF_SUCCESS: 'Släckte {{control_caption}}',
         POWER_OFF_FAILURE: 'Kunde inte släcka {{control_caption}}',
+        POWER_ON_ALL_SUCCESS: 'Tände alla',
+        POWER_ON_ALL_FAILURE: 'Kunde inte tända alla',
+        POWER_OFF_ALL_SUCCESS: 'SLäckte alla',
+        POWER_OFF_ALL_FAILURE: 'Kunde inte släcka alla',
         CONFIG_LOAD_FAILED: "Kunde inte hämta konfigurationen",
         W_SERVER_VERSION: "Server version",
         W_CLIENT_VERSION: "Klient version",
@@ -44,9 +52,6 @@
         W_LOGIN: "Logga in",
         WRONG_PASSWORD: "Misslyckad inloggning, försök igen.",
     };
-
-
-
 
     angular.module('main').config(['$translateProvider', function ($translateProvider) {
         // add translation table
