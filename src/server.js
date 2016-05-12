@@ -43,8 +43,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Serve client code as static assets
-app.use(express.static('../client/app'));
-app.use('/node_modules', express.static('../client/node_modules'));
+app.use(express.static('./src/client'));
+app.use('/node_modules', express.static('./node_modules'));
 
 //
 // Set up authorization
@@ -70,8 +70,8 @@ app.use('/api', require('./routers/controls'));
 // START THE HTTP(S) SERVER
 // =============================================================================
 var server = https.createServer({
-    key: fs.readFileSync('./app/ssl/key.pem'),
-    cert: fs.readFileSync('./app/ssl/cert.pem')
+    key: fs.readFileSync('./src/ssl/key.pem'),
+    cert: fs.readFileSync('./src/ssl/cert.pem')
 }, app).listen(port);
 
 logger.info('Web Server listening over SSL on ' + port);

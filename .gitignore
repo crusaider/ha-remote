@@ -1,10 +1,8 @@
 logs/*
+*.log
 !.gitkeep
-/client/node_modules/
-/server/node_modules/
-/client/bower_components/
+/node_modules/
 tmp
 .DS_Store
 .idea
-/client/app/jspm_packages
 /.vscode/
