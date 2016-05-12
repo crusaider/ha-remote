@@ -141,35 +141,47 @@
     function showToast(message) {
       $mdToast.show($mdToast.simple().textContent(message));
     }
-   /**
-     * Called when one of the calls to power on a single 
-     * device has been completed regardless of sucess or failure.
-     */
+    /**
+      * Called when one of the calls to power on a single 
+      * device has been completed regardless of sucess or failure.
+      */
 
     function powerOffAllCallback(results) {
       if (results.isComplete()) {
         self.showProgress = false;
         if (results.failCount() == 0) {
-          showToast("Powered off everyting.");
+          $translate('POWER_OFF_ALL_SUCCESS')
+            .then(function (message) {
+              showToast(message);
+            });
         } else {
-          showToast("Could not power off everything.");
+          $translate('POWER_OFF_ALL_FAILURE')
+            .then(function (message) {
+              showToast(message);
+            });
         }
       }
 
     }
-    
+
     /**
      * Called when one of the calls to power off a single 
      * device has been completed regardless of sucess or failure.
      */
-    
+
     function powerOnAllCallback(results) {
       if (results.isComplete()) {
         self.showProgress = false;
         if (results.failCount() == 0) {
-          showToast("Powered on everyting.");
+          $translate('POWER_ON_ALL_SUCCESS')
+            .then(function (message) {
+              showToast(message);
+            });
         } else {
-          showToast("Could not power on everything.");
+          $translate('POWER_ON_ALL_FAILURE')
+            .then(function (message) {
+              showToast(message);
+            });
         }
       }
     }
@@ -181,9 +193,9 @@
    * that has been called and categorizes them in sucess
    * or failures.
    */
-  
+
   function MultiOperationResult(controlCount) {
-    this.controlCount = 0;
+    this.controlCount = controlCount;
     this.sucessed = [];
     this.failed = [];
   }
