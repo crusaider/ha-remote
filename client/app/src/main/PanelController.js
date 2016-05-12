@@ -99,7 +99,7 @@
       $log.debug("Power off all clicked.");
       self.showProgress = true;
 
-      results = new MultiOperationResult();
+      results = new MultiOperationResult(self.controls.length);
 
       self.controls.forEach(function (control) {
         powerControlService.powerOff(control.id)
@@ -114,13 +114,13 @@
     }
 
     /**
-    * Power off all controls
+    * Power on all controls
     */
     function powerOnAll() {
       $log.debug("Power on all clicked.");
       self.showProgress = true;
 
-      results = new MultiOperationResult();
+      results = new MultiOperationResult(self.controls.length);
 
       self.controls.forEach(function (control) {
         powerControlService.powerOn(control.id)
@@ -141,9 +141,13 @@
     function showToast(message) {
       $mdToast.show($mdToast.simple().textContent(message));
     }
+   /**
+     * Called when one of the calls to power on a single 
+     * device has been completed regardless of sucess or failure.
+     */
 
     function powerOffAllCallback(results) {
-      if (results.isComplete(self.controls.length)) {
+      if (results.isComplete()) {
         self.showProgress = false;
         if (results.failCount() == 0) {
           showToast("Powered off everyting.");
@@ -154,8 +158,13 @@
 
     }
     
+    /**
+     * Called when one of the calls to power off a single 
+     * device has been completed regardless of sucess or failure.
+     */
+    
     function powerOnAllCallback(results) {
-      if (results.isComplete(self.controls.length)) {
+      if (results.isComplete()) {
         self.showProgress = false;
         if (results.failCount() == 0) {
           showToast("Powered on everyting.");
@@ -163,19 +172,24 @@
           showToast("Could not power on everything.");
         }
       }
-
     }
-
   }
 
 
-  function MultiOperationResult() {
+  /**
+   * Class that can keep track of the number of controls
+   * that has been called and categorizes them in sucess
+   * or failures.
+   */
+  
+  function MultiOperationResult(controlCount) {
+    this.controlCount = 0;
     this.sucessed = [];
     this.failed = [];
   }
 
-  MultiOperationResult.prototype.isComplete = function (controlCount) {
-    return this.sucessed.length + this.failed.length == controlCount;
+  MultiOperationResult.prototype.isComplete = function () {
+    return this.sucessed.length + this.failed.length >= this.controlCount;
   };
 
   MultiOperationResult.prototype.failCount = function () {
