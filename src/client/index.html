@@ -177,8 +177,7 @@
               </div>
               <div layout="column">
                 <h1 class="md-title" translate="APPNAME"></h1>
-                <h2 class="md-subhead"><span translate="W_CLIENT_VERSION"></span> <span ng-bind="::ctrl.clientVersion"></span></h2>
-                <h2 class="md-subhead"><span translate="W_SERVER_VERSION"></span> <span ng-bind="::ctrl.serverVersion"></span></h2>
+                <h2 class="md-subhead"><span translate="W_VERSION"></span> <span ng-bind="::ctrl.version"></span></h2>
                 <h2 class="me-title" translate="W_MODULES"></h2>
                 <p ng-repeat="pi in ctrl.packageInfos">
                   <span ng-bind="::pi.name"></span> - v<span ng-bind="::pi.version"></span>
