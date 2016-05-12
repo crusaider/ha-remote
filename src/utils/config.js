@@ -25,7 +25,7 @@ module.exports = {
         return getConfigData().controls[id];
     },
 
-    configFileName: process.env.CONFIGFILE || 'config.json'
+    configFileName: process.env.CONFIGFILE || './src/configuration.json'
 }
 
 
