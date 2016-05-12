@@ -23,8 +23,7 @@
 
         self.copyrightYear = about.copyrightYear;
         self.copyrightHolders = about.copyrightHolders;
-        self.serverVersion = about.serverVersion;
-        self.clientVersion = about.clientVersion;
+        self.version = about.version;
         self.packageInfos = about.modules;
         
       }, function (error) {

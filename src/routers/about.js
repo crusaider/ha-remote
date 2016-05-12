@@ -18,13 +18,11 @@ router.route('/')
         var aboutInfo = {
             copyrightYear: 2016,
             copyrightHolders: 'Jonas Andreasson',
-            serverVersion: readPackageInfo('package.json').version,
-            clientVersion: readPackageInfo('../client/package.json').version,
+            version: readPackageInfo('package.json').version,
             modules: []
         }; 
 
         aboutInfo.modules = aboutInfo.modules.concat(readDepencyInfos('.'));
-        aboutInfo.modules = aboutInfo.modules.concat(readDepencyInfos('../client'));
         
         res.json(aboutInfo);
     });
