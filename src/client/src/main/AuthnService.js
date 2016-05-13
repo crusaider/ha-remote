@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('main')
-    .service('authnService', ['localStorageService','$q', '$http', '$log', AuthnService]);
+    .service('authnService', ['localStorageService', '$q', '$http', '$log', AuthnService]);
 
 
-  function AuthnService(localStorageService,$q, $http, $log) {
-   
+  function AuthnService(localStorageService, $q, $http, $log) {
+
 
     // Promise-based API
     return {
@@ -15,7 +15,7 @@
         return $http.post('/api/authn', { password: password })
           .then(function (res) {
             $log.debug("Sucessfully logged in");
-            setToken( res.data.token );
+            setToken(res.data.token);
             return;
           }, function (res) {
             if (res.status == 401) {
@@ -27,15 +27,15 @@
             return $q.reject(res.data)
           })
       },
-      
-      logout: function() {
-        removeToken()  
+
+      logout: function () {
+        removeToken()
       },
-      
-      isAuthenticated: function() {
+
+      isAuthenticated: function () {
         var token = localStorageService.get('AuthToken');
-        
-        if( token ) {
+
+        if (token) {
           $http.defaults.headers.common.Authorization = token;
           return true;
         } else {
@@ -44,17 +44,36 @@
       }
     };
 
-    function setToken( newToken ) {
-      localStorageService.set('AuthToken', newToken );
+    function setToken(newToken) {
+      localStorageService.set('AuthToken', newToken);
       $http.defaults.headers.common.Authorization = newToken;
       $log.debug("New token stored");
-    } 
-    
+    }
+
     function removeToken() {
-        localStorageService.remove('AuthToken');
-        $log.debug("Token removed");
+      localStorageService.remove('AuthToken');
+      $log.debug("Token removed");
     }
   }
+
+  /**
+   * $http interceptor that emits a event on the $rootScope 
+   * on a 401 status code response.
+   */
+
+  angular.module('main').config(['$httpProvider', '$q', '$rootScope', function ($httpProvider, $q, $rootScope) {
+    $httpProvider.interceptors.push(function ($q, $log, $rootScope) {
+      return {
+        'request': function (config) {
+          $log.debug('Intercepted request');
+        },
+
+        'response': function (response) {
+          $log.debug('Intercepted response');
+        }
+      };
+    })
+  }])
 
 
 

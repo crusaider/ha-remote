@@ -8,13 +8,14 @@
       '$mdSidenav',
       '$log',
       '$translate',
+      '$rootScope',
       MainController
     ]);
 
   /**
    * Main Controller for the Angular Material Starter App
    */
-  function MainController(authnService, $mdSidenav, $log, $translate) {
+  function MainController(authnService, $mdSidenav, $log, $translate, $rootScope ) {
     var self = this;
 
     if ( authnService.isAuthenticated() ) {
@@ -28,6 +29,14 @@
     self.submitPassword = submitPassword;
     self.loginDisabled = false;
     self.loginFailed = false;
+
+    /**
+     * Set up a listener to catch 401 errors
+     */
+    $rootScope.on( 'authnRejected', function () {
+      self.selected = 'login';
+    })
+    
 
     // *********************************
     // Internal methods
