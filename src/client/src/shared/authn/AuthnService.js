@@ -55,10 +55,4 @@
       $log.debug("Token removed");
     }
   }
-
-  /**
-   * $http interceptor that emits a event on the $rootScope 
-   * on a 401 status code response.
-   */
-
 })();

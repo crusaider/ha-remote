@@ -31,7 +31,7 @@
     self.loginFailed = false;
 
     /**
-     * Listen for authnFailed events to fore a relogon
+     * Listen for authnFailed events to force a logon
      */
     $scope.$on('authnFailed', function() {
       $log.debug("Received authnFailed event");
