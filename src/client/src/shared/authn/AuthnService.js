@@ -61,20 +61,4 @@
    * on a 401 status code response.
    */
 
-  angular.module('main').config(['$httpProvider', '$q', '$rootScope', function ($httpProvider, $q, $rootScope) {
-    $httpProvider.interceptors.push(function ($q, $log, $rootScope) {
-      return {
-        'request': function (config) {
-          $log.debug('Intercepted request');
-        },
-
-        'response': function (response) {
-          $log.debug('Intercepted response');
-        }
-      };
-    })
-  }])
-
-
-
 })();

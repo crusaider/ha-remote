@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    angular.module('ha-remote.translations', ['pascalprecht.translate']);
+
     var en = {
         APPNAME: "HA Remote",
         TITLE: 'Home Remote',
