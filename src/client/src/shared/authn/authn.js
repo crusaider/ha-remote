@@ -3,7 +3,7 @@
   angular.module('ha-remote.authn', ['LocalStorageModule']);
 
   /*
-  ** Configure local storage
+  ** Configure local storage to store the authn token
   */
 
   angular.module('ha-remote.authn').config(['localStorageServiceProvider', function(localStorageServiceProvider ) {

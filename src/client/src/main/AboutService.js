@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('main')
+  angular.module('ha-remote')
     .service('aboutService', ['$q', '$http', '$log', AboutService]);
 
 

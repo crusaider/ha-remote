@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   angular
-    .module('main')
+    .module('ha-remote')
     .controller('MainController',
     [
       'authnService',

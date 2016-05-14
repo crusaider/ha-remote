@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('main')
+  angular.module('ha-remote.authn')
     .service('authnService', ['localStorageService', '$q', '$http', '$log', AuthnService]);
 
 

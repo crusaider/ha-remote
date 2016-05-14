@@ -53,7 +53,7 @@
         WRONG_PASSWORD: "Misslyckad inloggning, försök igen.",
     };
 
-    angular.module('main').config(['$translateProvider', function ($translateProvider) {
+    angular.module('ha-remote.translations').config(['$translateProvider', function ($translateProvider) {
         // add translation table
         $translateProvider
             .translations('en', en)
