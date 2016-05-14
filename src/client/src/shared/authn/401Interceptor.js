@@ -1,25 +1,17 @@
 (function () {
     'use strict';
 
-    angular.module('ha-remote.authn').factory('Intercept401', ['$log','$q', function ( $log, $q) {
-
-        $log.debug('$log is here to show you that this is a regular factory with injection');
+    angular.module('ha-remote.authn').factory('Intercept401', ['$log','$q', '$rootScope', function ( $log, $q, $rootScope) {
 
         return {
-
-            response: function(response) {
-                $log.debug("Intercepted response");
-                var deferred = $q.defer();
-                deferred.resolve(response); 
-                return deferred.promise;           
-            },
             responseError: function(response) {
                 $log.debug("Intercepted response error");
                 var deferred = $q.defer();
+                $rootScope.$broadcast('authnFailed');
+                $log.debug("Broadcasted authnFailed event");
                 deferred.reject(response);
                 return deferred.promise;            
             }
-
         };
     }]);
 

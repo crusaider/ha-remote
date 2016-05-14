@@ -8,13 +8,14 @@
       '$mdSidenav',
       '$log',
       '$translate',
+      '$scope',
       MainController
     ]);
 
   /**
    * Main Controller for the Angular Material Starter App
    */
-  function MainController(authnService, $mdSidenav, $log, $translate ) {
+  function MainController(authnService, $mdSidenav, $log, $translate, $scope ) {
     var self = this;
 
     if ( authnService.isAuthenticated() ) {
@@ -29,6 +30,13 @@
     self.loginDisabled = false;
     self.loginFailed = false;
 
+    /**
+     * Listen for authnFailed events to fore a relogon
+     */
+    $scope.$on('authnFailed', function() {
+      $log.debug("Received authnFailed event");
+      self.selected = 'login';
+    });
 
     // *********************************
     // Internal methods
