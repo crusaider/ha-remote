@@ -1,3 +1,12 @@
+/**
+ * @module ha-remote.translations
+ * 
+ * Manage tanslation strings for the app.
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
+
 (function () {
     'use strict';
 
