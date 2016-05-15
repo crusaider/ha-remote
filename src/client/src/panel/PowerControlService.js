@@ -13,7 +13,7 @@
 
         return $http.post('/api/controls/' + id + '/poweron')
         .then(function (res) {
-          $log.debug("Called poweron API for control id:" + id);
+          $log.debug("Called powerOn API for control id:" + id);
           return res.data;
         }, function (res) {
           $log.info("Call to " + res.config.url + " failed with status " + res.status);
@@ -25,14 +25,25 @@
 
         return $http.post('/api/controls/' + id + '/poweroff')
         .then(function (res) {
-          $log.debug("Called poeroff API for control id:" + id);
+          $log.debug("Called powerOff API for control id:" + id);
+          return res.data;
+        }, function (res) {
+          $log.info("Call to " + res.config.url + " failed with status " + res.status);
+          return $q.reject(res.data)
+        })
+      },
+
+      getState: function ( id ) {
+
+        return $http.get('/api/controls/' + id)
+        .then(function (res) {
+          $log.debug("Called getState API for control id:" + id);
           return res.data;
         }, function (res) {
           $log.info("Call to " + res.config.url + " failed with status " + res.status);
           return $q.reject(res.data)
         })
       }
-
     };
   }
 

@@ -1,3 +1,11 @@
+/**
+ * Controller that manages a single set of on and off buttons in the 
+ * control panel.
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
+
 (function () {
 
   angular
@@ -8,17 +16,22 @@
       '$log',
       '$mdToast',
       '$translate',
+      '$scope',
       ControlController
     ]);
 
-  /**
-   * Main Controller for the Angular Material Starter App
-   */
-  function ControlController(powerControlService, $log, $mdToast, $translate) {
+  function ControlController(powerControlService, $log, $mdToast, $translate, $scope) {
     var self = this;
+
+    // TODO: Is this a hack? Any other way to get a reference to it?
+    self.control = $scope.$parent.control;
 
     self.powerOn = powerOn;
     self.powerOff = powerOff;
+    self.state = 'unknown';
+
+    updateState();
+
 
     // *********************************
     // Internal methods
@@ -38,12 +51,14 @@
             .then(function (message) {
               showToast(message);
             });
+          updateState();
         }, function () {
           self.showProgress = false;
           $translate('POWER_ON_FAILURE', { control_caption: control.caption })
             .then(function (message) {
               showToast(message);
             });
+          updateState();
         })
     }
 
@@ -61,14 +76,41 @@
             .then(function (message) {
               showToast(message);
             });
+          updateState();
         }, function () {
           self.showProgress = false;
           $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
             .then(function (message) {
               showToast(message);
             });
+          updateState();
         })
     }
+
+    function updateState() {
+
+      powerControlService.getState(self.control.id)
+        .then(function (data) {
+
+          switch (data.state) {
+            case "on":
+              self.state = "on";
+              break;
+            case "off":
+              self.state = "off";
+              break;
+            default:
+              self.state = "unknown";
+          }
+
+          $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
+
+        }, function () {
+          self.state = "unknown";
+          $log.debug("Could not get state of device %s setting it to %s", self.control.caption, self.state);
+        })
+    }
+
 
     /**
      * Show simple toast with a message.
