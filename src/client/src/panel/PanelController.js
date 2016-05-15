@@ -9,13 +9,14 @@
       '$log',
       '$mdToast',
       '$translate',
+      '$scope',
       PanelController
     ]);
 
   /**
    * Main Controller for the Angular Material Starter App
    */
-  function PanelController(configService, powerControlService, $log, $mdToast, $translate) {
+  function PanelController(configService, powerControlService, $log, $mdToast, $translate, $scope) {
     var self = this;
 
     self.controls = [];
@@ -39,6 +40,23 @@
         });
       });
 
+    /**
+    * 
+    * Listen for events to hide or show the progress bar
+    *
+    */
+    var progressCount = 0;
+    $scope.$on('showProgress', function () {
+      self.showProgress = true;
+      progressCount++;
+    });
+
+    $scope.$on('hideProgress', function () {
+      if (--progressCount <= 0) {
+        self.showProgress = false;
+      }
+    });
+
     // *********************************
     // Internal methods
     // *********************************
@@ -47,73 +65,73 @@
     * Power off all controls
     */
     function powerOffAll() {
-      $log.debug("Power off all clicked.");
-      self.showProgress = true;
+        $log.debug("Power off all clicked.");
+        self.showProgress = true;
 
-      results = new MultiOperationResult(self.controls.length);
+        results = new MultiOperationResult(self.controls.length);
 
-      self.controls.forEach(function (control) {
-        powerControlService.powerOff(control.id)
-          .then(function () {
-            results.addSucess(control);
-            powerOffAllCallback(results);
-          }, function () {
-            results.addFailure(control);
-            powerOffAllCallback(results);
-          })
-      })
-    }
+        self.controls.forEach(function (control) {
+          powerControlService.powerOff(control.id)
+            .then(function () {
+              results.addSucess(control);
+              powerOffAllCallback(results);
+            }, function () {
+              results.addFailure(control);
+              powerOffAllCallback(results);
+            })
+        })
+      }
 
     /**
     * Power on all controls
     */
     function powerOnAll() {
-      $log.debug("Power on all clicked.");
-      self.showProgress = true;
+        $log.debug("Power on all clicked.");
+        self.showProgress = true;
 
-      results = new MultiOperationResult(self.controls.length);
+        results = new MultiOperationResult(self.controls.length);
 
-      self.controls.forEach(function (control) {
-        powerControlService.powerOn(control.id)
-          .then(function () {
-            results.addSucess(control);
-            powerOnAllCallback(results);
-          }, function () {
-            results.addFailure(control);
-            powerOnAllCallback(results);
-          })
-      })
-    }
+        self.controls.forEach(function (control) {
+          powerControlService.powerOn(control.id)
+            .then(function () {
+              results.addSucess(control);
+              powerOnAllCallback(results);
+            }, function () {
+              results.addFailure(control);
+              powerOnAllCallback(results);
+            })
+        })
+      }
 
 
     /**
      * Show simple toast with a message.
      */
     function showToast(message) {
-      $mdToast.show($mdToast.simple().textContent(message));
-    }
+        $mdToast.show($mdToast.simple().textContent(message));
+      }
     /**
       * Called when one of the calls to power on a single 
       * device has been completed regardless of sucess or failure.
       */
 
     function powerOffAllCallback(results) {
-      if (results.isComplete()) {
-        self.showProgress = false;
-        if (results.failCount() == 0) {
-          $translate('POWER_OFF_ALL_SUCCESS')
-            .then(function (message) {
-              showToast(message);
-            });
-        } else {
-          $translate('POWER_OFF_ALL_FAILURE')
-            .then(function (message) {
-              showToast(message);
-            });
+        if (results.isComplete()) {
+          self.showProgress = false;
+          if (results.failCount() == 0) {
+            $translate('POWER_OFF_ALL_SUCCESS')
+              .then(function (message) {
+                showToast(message);
+              });
+          } else {
+            $translate('POWER_OFF_ALL_FAILURE')
+              .then(function (message) {
+                showToast(message);
+              });
+          }
         }
-      }
 
-    }
+      }
 
     /**
      * Called when one of the calls to power off a single 
@@ -121,21 +139,21 @@
      */
 
     function powerOnAllCallback(results) {
-      if (results.isComplete()) {
-        self.showProgress = false;
-        if (results.failCount() == 0) {
-          $translate('POWER_ON_ALL_SUCCESS')
-            .then(function (message) {
-              showToast(message);
-            });
-        } else {
-          $translate('POWER_ON_ALL_FAILURE')
-            .then(function (message) {
-              showToast(message);
-            });
+        if (results.isComplete()) {
+          self.showProgress = false;
+          if (results.failCount() == 0) {
+            $translate('POWER_ON_ALL_SUCCESS')
+              .then(function (message) {
+                showToast(message);
+              });
+          } else {
+            $translate('POWER_ON_ALL_FAILURE')
+              .then(function (message) {
+                showToast(message);
+              });
+          }
         }
       }
-    }
   }
 
 

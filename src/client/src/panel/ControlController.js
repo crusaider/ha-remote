@@ -33,6 +33,8 @@
     updateState();
 
 
+ 
+
     // *********************************
     // Internal methods
     // *********************************
@@ -42,7 +44,7 @@
      */
     function powerOn(control) {
       $log.debug("Power on for id: " + control.id + " clicked.");
-      self.showProgress = true;
+      showProgress();
 
       powerControlService.powerOn(control.id)
         .then(function () {
@@ -67,18 +69,16 @@
      */
     function powerOff(control) {
       $log.debug("Power off for id: " + control.id + " clicked.");
-      self.showProgress = true;
+      showProgress();
 
       powerControlService.powerOff(control.id)
         .then(function () {
-          self.showProgress = false;
           $translate('POWER_OFF_SUCCESS', { control_caption: control.caption })
             .then(function (message) {
               showToast(message);
             });
           updateState();
         }, function () {
-          self.showProgress = false;
           $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
             .then(function (message) {
               showToast(message);
@@ -102,15 +102,26 @@
             default:
               self.state = "state-unknown";
           }
-
+          hideProgress();
           $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
+            
 
         }, function () {
           self.state = "unknown";
+          hideProgress();
           $log.debug("Could not get state of device %s setting it to %s", self.control.caption, self.state);
         })
     }
 
+    function showProgress() {
+      $scope.$emit('showProgress');      
+      $log.debug("Emitted showProgress");
+    }
+    
+    function hideProgress() {
+      $scope.$emit('hideProgress');      
+      $log.debug("Emitted hideProgress");
+        }
 
     /**
      * Show simple toast with a message.
