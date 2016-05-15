@@ -28,7 +28,7 @@
 
     self.powerOn = powerOn;
     self.powerOff = powerOff;
-    self.state = 'unknown';
+    self.state = 'state-unknown';
 
     updateState();
 
@@ -94,13 +94,13 @@
 
           switch (data.state) {
             case "on":
-              self.state = "on";
+              self.state = "state-on";
               break;
             case "off":
-              self.state = "off";
+              self.state = "state-off";
               break;
             default:
-              self.state = "unknown";
+              self.state = "state-unknown";
           }
 
           $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
