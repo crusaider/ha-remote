@@ -1,7 +1,7 @@
 /**
  * Installs a $http interceptor that will broadcast a event on the 
- * $rootScope when a request is rejected by the backend with a 401 
- * acces denied response code.
+ * $rootScope when a request is rejected by the backend with a 
+ * 401 (Unauthorized) response code.
  * 
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT
@@ -19,9 +19,12 @@
                 responseError: function (response) {
                     $log.debug("Intercepted response error");
                     var deferred = $q.defer();
-                    // TODO: Check response code
-                    $rootScope.$broadcast('authnFailed');
-                    $log.debug("Broadcasted authnFailed event");
+                    
+                    if (response.status == 401) {
+                        $rootScope.$broadcast('authnFailed');
+                        $log.debug("Broadcasted authnFailed event");
+                    }
+
                     deferred.reject(response);
                     return deferred.promise;
                 }
