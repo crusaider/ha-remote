@@ -32,8 +32,12 @@
 
     updateState();
 
+    /**
+     * Listen for events to update state
+     */
 
- 
+    $scope.$on('updateState', updateState);
+
 
     // *********************************
     // Internal methods
@@ -54,6 +58,7 @@
               showToast(message);
             });
           updateState();
+          hideProgress();
         }, function () {
           self.showProgress = false;
           $translate('POWER_ON_FAILURE', { control_caption: control.caption })
@@ -61,6 +66,7 @@
               showToast(message);
             });
           updateState();
+          hideProgress();
         })
     }
 
@@ -78,12 +84,14 @@
               showToast(message);
             });
           updateState();
+          hideProgress();
         }, function () {
           $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
             .then(function (message) {
               showToast(message);
             });
           updateState();
+          hideProgress();
         })
     }
 
@@ -102,26 +110,23 @@
             default:
               self.state = "state-unknown";
           }
-          hideProgress();
           $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
-            
 
         }, function () {
           self.state = "unknown";
-          hideProgress();
           $log.debug("Could not get state of device %s setting it to %s", self.control.caption, self.state);
         })
     }
 
     function showProgress() {
-      $scope.$emit('showProgress');      
+      $scope.$emit('showProgress');
       $log.debug("Emitted showProgress");
     }
-    
+
     function hideProgress() {
-      $scope.$emit('hideProgress');      
+      $scope.$emit('hideProgress');
       $log.debug("Emitted hideProgress");
-        }
+    }
 
     /**
      * Show simple toast with a message.

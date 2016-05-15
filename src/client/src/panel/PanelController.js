@@ -53,11 +53,11 @@
 
     $scope.$on('hideProgress', function () {
       progressCount--;
-      if ( progressCount < 0 ) {
+      if (progressCount < 0) {
         progressCount = 0;
       }
-      
-      if ( progressCount == 0) {
+
+      if (progressCount == 0) {
         self.showProgress = false;
       }
     });
@@ -70,43 +70,43 @@
     * Power off all controls
     */
     function powerOffAll() {
-        $log.debug("Power off all clicked.");
-        showProgress();
+      $log.debug("Power off all clicked.");
+      showProgress();
 
-        results = new MultiOperationResult(self.controls.length);
+      results = new MultiOperationResult(self.controls.length);
 
-        self.controls.forEach(function (control) {
-          powerControlService.powerOff(control.id)
-            .then(function () {
-              results.addSucess(control);
-              powerOffAllCallback(results);
-            }, function () {
-              results.addFailure(control);
-              powerOffAllCallback(results);
-            })
-        })
-      }
+      self.controls.forEach(function (control) {
+        powerControlService.powerOff(control.id)
+          .then(function () {
+            results.addSucess(control);
+            powerOffAllCallback(results);
+          }, function () {
+            results.addFailure(control);
+            powerOffAllCallback(results);
+          })
+      })
+    }
 
     /**
     * Power on all controls
     */
     function powerOnAll() {
-        $log.debug("Power on all clicked.");
-        showProgress();
+      $log.debug("Power on all clicked.");
+      showProgress();
 
-        results = new MultiOperationResult(self.controls.length);
+      results = new MultiOperationResult(self.controls.length);
 
-        self.controls.forEach(function (control) {
-          powerControlService.powerOn(control.id)
-            .then(function () {
-              results.addSucess(control);
-              powerOnAllCallback(results);
-            }, function () {
-              results.addFailure(control);
-              powerOnAllCallback(results);
-            })
-        })
-      }
+      self.controls.forEach(function (control) {
+        powerControlService.powerOn(control.id)
+          .then(function () {
+            results.addSucess(control);
+            powerOnAllCallback(results);
+          }, function () {
+            results.addFailure(control);
+            powerOnAllCallback(results);
+          })
+      })
+    }
 
     function showProgress() {
       $scope.$emit('showProgress');
@@ -118,34 +118,40 @@
       $log.debug("Emitted hideProgress");
     }
 
+    function initUpdateState() {
+      $scope.$broadcast('updateState');
+    }
+
     /**
      * Show simple toast with a message.
      */
     function showToast(message) {
-        $mdToast.show($mdToast.simple().textContent(message));
-      }
+      $mdToast.show($mdToast.simple().textContent(message));
+    }
     /**
       * Called when one of the calls to power on a single 
       * device has been completed regardless of sucess or failure.
       */
 
     function powerOffAllCallback(results) {
-        if (results.isComplete()) {
-          hideProgress();
-          if (results.failCount() == 0) {
-            $translate('POWER_OFF_ALL_SUCCESS')
-              .then(function (message) {
-                showToast(message);
-              });
-          } else {
-            $translate('POWER_OFF_ALL_FAILURE')
-              .then(function (message) {
-                showToast(message);
-              });
-          }
+      if (results.isComplete()) {
+        hideProgress();
+        if (results.failCount() == 0) {
+          $translate('POWER_OFF_ALL_SUCCESS')
+            .then(function (message) {
+              showToast(message);
+            });
+          initUpdateState();
+        } else {
+          $translate('POWER_OFF_ALL_FAILURE')
+            .then(function (message) {
+              showToast(message);
+            });
+          initUpdateState();
         }
-
       }
+
+    }
 
     /**
      * Called when one of the calls to power off a single 
@@ -153,21 +159,23 @@
      */
 
     function powerOnAllCallback(results) {
-        if (results.isComplete()) {
-          hideProgress();
-          if (results.failCount() == 0) {
-            $translate('POWER_ON_ALL_SUCCESS')
-              .then(function (message) {
-                showToast(message);
-              });
-          } else {
-            $translate('POWER_ON_ALL_FAILURE')
-              .then(function (message) {
-                showToast(message);
-              });
-          }
+      if (results.isComplete()) {
+        hideProgress();
+        if (results.failCount() == 0) {
+          $translate('POWER_ON_ALL_SUCCESS')
+            .then(function (message) {
+              showToast(message);
+            });
+          initUpdateState();
+        } else {
+          $translate('POWER_ON_ALL_FAILURE')
+            .then(function (message) {
+              showToast(message);
+            });
+          initUpdateState();
         }
       }
+    }
   }
 
 
