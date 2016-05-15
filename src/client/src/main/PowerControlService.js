@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('main')
+  angular.module('ha-remote')
     .service('powerControlService', ['$q', '$http', '$log', PowerControlService]);
 
 

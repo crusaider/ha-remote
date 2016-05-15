@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="haRemoteApp">
+<html lang="en" ng-app="ha-remote">
 
 <head>
   <title translate="TITLE"></title>
@@ -214,34 +214,17 @@
   <script src="./node_modules/angular-translate/dist/angular-translate.min.js"></script>
   <script src="./node_modules/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
-  <script src="./src/main/main.js"></script>
-  <script src="./src/main/translations.js"></script>
+  <script src="./src/ha-remote.js"></script>
+  <script src="./src/shared/translations/translations.js"></script>
   <script src="./src/main/ConfigService.js"></script>
   <script src="./src/main/AboutService.js"></script>
-  <script src="./src/main/AuthnService.js"></script>
+  <script src="./src/shared/authn/authn.js"></script>
+  <script src="./src/shared/authn/AuthnService.js"></script>
+  <script src="./src/shared/authn/401Interceptor.js"></script>
   <script src="./src/main/PowerControlService.js"></script>
   <script src="./src/main/MainController.js"></script>
   <script src="./src/main/PanelController.js"></script>
   <script src="./src/main/AboutController.js"></script>
-
-  <script type="text/javascript">
-    angular
-              .module('haRemoteApp', ['ngMaterial', 'main'])
-              .config(function($mdThemingProvider, $mdIconProvider){
-
-                  $mdIconProvider
-                      .defaultIconSet('./assets/svg/mdi.svg')
-                      .icon("menu"       , "./assets/svg/menu.svg",       24)
-                      .icon("power-on"   , "./assets/svg/power-on.svg",   24 )
-                      .icon("power-off"  , "./assets/svg/power-off.svg",  24 )
-                      .icon("logo"      , "./assets/svg/remote-control.svg", 12);
-
-                  $mdThemingProvider.theme('default')
-                      .primaryPalette('blue')
-                      .accentPalette('red');
-
-              });
-  </script>
 
 </body>
 

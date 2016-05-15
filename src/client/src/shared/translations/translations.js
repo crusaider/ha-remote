@@ -1,5 +1,16 @@
+/**
+ * @module ha-remote.translations
+ * 
+ * Manage tanslation strings for the app.
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
+
 (function () {
     'use strict';
+
+    angular.module('ha-remote.translations', ['pascalprecht.translate']);
 
     var en = {
         APPNAME: "HA Remote",
@@ -51,7 +62,7 @@
         WRONG_PASSWORD: "Misslyckad inloggning, försök igen.",
     };
 
-    angular.module('main').config(['$translateProvider', function ($translateProvider) {
+    angular.module('ha-remote.translations').config(['$translateProvider', function ($translateProvider) {
         // add translation table
         $translateProvider
             .translations('en', en)
