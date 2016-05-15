@@ -1,6 +1,10 @@
 (function () {
   'use strict';
-  angular.module('ha-remote', ['ngMaterial', 'ha-remote.translations', 'ha-remote.authn']);
+  angular.module('ha-remote', [
+    'ngMaterial',
+    'ha-remote.panel',
+    'ha-remote.translations',
+    'ha-remote.authn']);
 
 
   /**
