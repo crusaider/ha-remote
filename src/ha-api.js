@@ -13,6 +13,7 @@ var haPassword = process.env.HA_PASSWORD || "";
 
 module.exports = {
     callService: callService,
+    getDeviceState: getDeviceState,
 
     url: haURL,
     password: haPassword,
@@ -21,16 +22,11 @@ module.exports = {
 
 function callService(domain, service, serviceData, cb) {
 
-    var options = {
-        method: 'POST',
-        url: haURL + "/api/services/" + domain + "/" + service,
-        headers: {
-            'X-HA-Access': haPassword
-        },
-        strictSSL: false,
-        json: true,
-        body: serviceData
-    }
+    var options = buildOptionsBase();
+        
+    options.method = 'POST',
+    options.url = haURL + "/api/services/" + domain + "/" + service,
+    options.body = serviceData
 
     request(options, function (err, message, body) {
         if ( err ) {
@@ -49,4 +45,40 @@ function callService(domain, service, serviceData, cb) {
 
         return cb(err, body);
     })
+}
+
+function getDeviceState(entityId, cb) {
+
+    var options = buildOptionsBase();
+        
+    options.method = 'GET',
+    options.url = haURL + "/api/states/" + entityId ,
+
+    request(options, function (err, message, body) {
+        if ( err ) {
+            logger.error("Call to HA API Server failed", err );
+            return cb(500);
+        }
+        
+        if (message.statusCode != 200) {
+            logger.error("Call to get state for entity_id %s failed, statuscode: %s",
+                entityId, message.statusCode);
+            return cb(message.statusCode, 
+                { haStatusCode: message.statusCode,
+                    haStatusMessage: message.StatusMessage
+                });
+        }
+
+        return cb(err, body);
+    })
+}
+
+function buildOptionsBase() {
+    return {
+        headers: {
+            'X-HA-Access': haPassword
+        },
+        strictSSL: false,
+        json: true,
+    }
 }

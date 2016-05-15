@@ -1,7 +1,7 @@
 (function () {
 
   angular
-    .module('ha-remote')
+    .module('ha-remote.panel')
     .controller('PanelController',
     [
       'configService',
@@ -9,23 +9,22 @@
       '$log',
       '$mdToast',
       '$translate',
+      '$scope',
       PanelController
     ]);
 
   /**
    * Main Controller for the Angular Material Starter App
    */
-  function PanelController(configService, powerControlService, $log, $mdToast, $translate) {
+  function PanelController(configService, powerControlService, $log, $mdToast, $translate, $scope) {
     var self = this;
 
     self.controls = [];
     self.showControls = false;
     self.showProgress = true;
-    self.powerOn = powerOn;
-    self.powerOff = powerOff;
     self.powerOffAll = powerOffAll;
     self.powerOnAll = powerOnAll;
-
+    self.onWindowFocus = onWindowFocus;
 
     // Load controls configuration
 
@@ -42,62 +41,39 @@
         });
       });
 
-    // *********************************
-    // Internal methods
-    // *********************************
+    /**
+    * 
+    * Listen for events to hide or show the progress bar
+    *
+    */
+    var progressCount = 0;
+    $scope.$on('showProgress', function () {
+      self.showProgress = true;
+      progressCount++;
+    });
+
+    $scope.$on('hideProgress', function () {
+      progressCount--;
+      if (progressCount < 0) {
+        progressCount = 0;
+      }
+
+      if (progressCount == 0) {
+        self.showProgress = false;
+      }
+    });
 
     /**
-     * Power on a control
+     * Exported functions
      */
-    function powerOn(control) {
-      $log.debug("Power on for id: " + control.id + " clicked.");
-      self.showProgress = true;
-
-      powerControlService.powerOn(control.id)
-        .then(function () {
-          self.showProgress = false;
-          $translate('POWER_ON_SUCCESS', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        }, function () {
-          self.showProgress = false;
-          $translate('POWER_ON_FAILURE', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        })
-    }
-
-    /**
-     * Power off a control
-     */
-    function powerOff(control) {
-      $log.debug("Power off for id: " + control.id + " clicked.");
-      self.showProgress = true;
-
-      powerControlService.powerOff(control.id)
-        .then(function () {
-          self.showProgress = false;
-          $translate('POWER_OFF_SUCCESS', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        }, function () {
-          self.showProgress = false;
-          $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        })
-    }
-
+ 
+ 
     /**
     * Power off all controls
     */
     function powerOffAll() {
       $log.debug("Power off all clicked.");
-      self.showProgress = true;
+      showProgress();
 
       results = new MultiOperationResult(self.controls.length);
 
@@ -118,7 +94,7 @@
     */
     function powerOnAll() {
       $log.debug("Power on all clicked.");
-      self.showProgress = true;
+      showProgress();
 
       results = new MultiOperationResult(self.controls.length);
 
@@ -133,7 +109,34 @@
           })
       })
     }
+    
+    /**
+     * Update state of all child controls when the window has 
+     * gotten focus.
+     */
+    function onWindowFocus() {
+      $log.debug("PanelController#onWindowFocus");
+      initUpdateState();
+    }
+    
+    /**
+     * Internal functions
+     */
 
+    function showProgress() {
+      $scope.$emit('showProgress');
+      $log.debug("Emitted showProgress");
+    }
+
+    function hideProgress() {
+      $scope.$emit('hideProgress');
+      $log.debug("Emitted hideProgress");
+    }
+
+    function initUpdateState() {
+      $log.debug("PanelController#initUpdateState");
+      $scope.$broadcast('updateState');
+    }
 
     /**
      * Show simple toast with a message.
@@ -148,17 +151,19 @@
 
     function powerOffAllCallback(results) {
       if (results.isComplete()) {
-        self.showProgress = false;
+        hideProgress();
         if (results.failCount() == 0) {
           $translate('POWER_OFF_ALL_SUCCESS')
             .then(function (message) {
               showToast(message);
             });
+          initUpdateState();
         } else {
           $translate('POWER_OFF_ALL_FAILURE')
             .then(function (message) {
               showToast(message);
             });
+          initUpdateState();
         }
       }
 
@@ -171,17 +176,19 @@
 
     function powerOnAllCallback(results) {
       if (results.isComplete()) {
-        self.showProgress = false;
+        hideProgress();
         if (results.failCount() == 0) {
           $translate('POWER_ON_ALL_SUCCESS')
             .then(function (message) {
               showToast(message);
             });
+          initUpdateState();
         } else {
           $translate('POWER_ON_ALL_FAILURE')
             .then(function (message) {
               showToast(message);
             });
+          initUpdateState();
         }
       }
     }
