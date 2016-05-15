@@ -48,6 +48,22 @@ router.route('/controls/:id/poweroff')
         })
     })
 
+router.route('/controls/:id')
+
+    .get(function (req, res) {
+
+        var control = config.controlDescription(Number(req.params.id));
+        
+        ha.getDeviceState( control.device_id,
+            function(err, responseBody ){
+            if ( err ) {
+                logger.error("Failed to call get state service for device: %s", control.device_id);
+                return res.status(err).json(responseBody); 
+            }    
+            
+            res.json({ state: responseBody.state });
+        })
+    })
 
 
 module.exports = router;
