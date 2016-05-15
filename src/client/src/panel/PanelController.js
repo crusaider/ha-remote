@@ -21,11 +21,8 @@
     self.controls = [];
     self.showControls = false;
     self.showProgress = true;
-    self.powerOn = powerOn;
-    self.powerOff = powerOff;
     self.powerOffAll = powerOffAll;
     self.powerOnAll = powerOnAll;
-
 
     // Load controls configuration
 
@@ -45,52 +42,6 @@
     // *********************************
     // Internal methods
     // *********************************
-
-    /**
-     * Power on a control
-     */
-    function powerOn(control) {
-      $log.debug("Power on for id: " + control.id + " clicked.");
-      self.showProgress = true;
-
-      powerControlService.powerOn(control.id)
-        .then(function () {
-          self.showProgress = false;
-          $translate('POWER_ON_SUCCESS', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        }, function () {
-          self.showProgress = false;
-          $translate('POWER_ON_FAILURE', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        })
-    }
-
-    /**
-     * Power off a control
-     */
-    function powerOff(control) {
-      $log.debug("Power off for id: " + control.id + " clicked.");
-      self.showProgress = true;
-
-      powerControlService.powerOff(control.id)
-        .then(function () {
-          self.showProgress = false;
-          $translate('POWER_OFF_SUCCESS', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        }, function () {
-          self.showProgress = false;
-          $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
-            .then(function (message) {
-              showToast(message);
-            });
-        })
-    }
 
     /**
     * Power off all controls
