@@ -21,16 +21,11 @@ module.exports = {
 
 function callService(domain, service, serviceData, cb) {
 
-    var options = {
-        method: 'POST',
-        url: haURL + "/api/services/" + domain + "/" + service,
-        headers: {
-            'X-HA-Access': haPassword
-        },
-        strictSSL: false,
-        json: true,
-        body: serviceData
-    }
+    var options = buildOptionsBase();
+        
+    options.method = 'POST',
+    options.url = haURL + "/api/services/" + domain + "/" + service,
+    options.body = serviceData
 
     request(options, function (err, message, body) {
         if ( err ) {
@@ -49,4 +44,14 @@ function callService(domain, service, serviceData, cb) {
 
         return cb(err, body);
     })
+}
+
+function buildOptionsBase() {
+    return {
+        headers: {
+            'X-HA-Access': haPassword
+        },
+        strictSSL: false,
+        json: true,
+    }
 }
