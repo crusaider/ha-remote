@@ -52,7 +52,12 @@
     });
 
     $scope.$on('hideProgress', function () {
-      if (--progressCount <= 0) {
+      progressCount--;
+      if ( progressCount < 0 ) {
+        progressCount = 0;
+      }
+      
+      if ( progressCount == 0) {
         self.showProgress = false;
       }
     });
@@ -66,7 +71,7 @@
     */
     function powerOffAll() {
         $log.debug("Power off all clicked.");
-        self.showProgress = true;
+        showProgress();
 
         results = new MultiOperationResult(self.controls.length);
 
@@ -87,7 +92,7 @@
     */
     function powerOnAll() {
         $log.debug("Power on all clicked.");
-        self.showProgress = true;
+        showProgress();
 
         results = new MultiOperationResult(self.controls.length);
 
@@ -103,6 +108,15 @@
         })
       }
 
+    function showProgress() {
+      $scope.$emit('showProgress');
+      $log.debug("Emitted showProgress");
+    }
+
+    function hideProgress() {
+      $scope.$emit('hideProgress');
+      $log.debug("Emitted hideProgress");
+    }
 
     /**
      * Show simple toast with a message.
@@ -117,7 +131,7 @@
 
     function powerOffAllCallback(results) {
         if (results.isComplete()) {
-          self.showProgress = false;
+          hideProgress();
           if (results.failCount() == 0) {
             $translate('POWER_OFF_ALL_SUCCESS')
               .then(function (message) {
@@ -140,7 +154,7 @@
 
     function powerOnAllCallback(results) {
         if (results.isComplete()) {
-          self.showProgress = false;
+          hideProgress();
           if (results.failCount() == 0) {
             $translate('POWER_ON_ALL_SUCCESS')
               .then(function (message) {
