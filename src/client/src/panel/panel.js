@@ -9,7 +9,7 @@
 
 (function () {
   'use strict';
-  angular.module('ha-remote.panel', ['ha-remote.translations']);
+  angular.module('ha-remote.panel', ['ha-remote.translations', 'window-events' ]);
 
 
 })();

@@ -24,6 +24,7 @@
     self.showProgress = true;
     self.powerOffAll = powerOffAll;
     self.powerOnAll = powerOnAll;
+    self.onWindowFocus = onWindowFocus;
 
     // Load controls configuration
 
@@ -62,10 +63,11 @@
       }
     });
 
-    // *********************************
-    // Internal methods
-    // *********************************
-
+    /**
+     * Exported functions
+     */
+ 
+ 
     /**
     * Power off all controls
     */
@@ -107,6 +109,19 @@
           })
       })
     }
+    
+    /**
+     * Update state of all child controls when the window has 
+     * gotten focus.
+     */
+    function onWindowFocus() {
+      $log.debug("PanelController#onWindowFocus");
+      initUpdateState();
+    }
+    
+    /**
+     * Internal functions
+     */
 
     function showProgress() {
       $scope.$emit('showProgress');
@@ -119,6 +134,7 @@
     }
 
     function initUpdateState() {
+      $log.debug("PanelController#initUpdateState");
       $scope.$broadcast('updateState');
     }
 
