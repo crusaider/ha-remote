@@ -133,37 +133,7 @@
       <!-- Control Panel -->
 
       <div ng-if="ctrl.selected == 'panel'">
-        <div ng-controller="PanelController as ctrl">
-          <md-progress-linear md-mode="indeterminate" ng-show="ctrl.showProgress"></md-progress-linear>
-          <md-card ng-show="ctrl.showControls">
-            <md-card-content>
-              <div ng-repeat-start="c in ctrl.controls" layout="row" layout-align="space-between center">
-                <md-button ng-click="ctrl.powerOn( c )" class="md-fab md-primary" aria-label="Power On">
-                  <md-icon md-svg-src="power-on"></md-icon>
-                </md-button>
-                <md-card-title>{{c.caption}}</md-card-title>
-                <md-button ng-click="ctrl.powerOff( c )" class="md-fab md-primary" aria-label="Power Off">
-                  <md-icon md-svg-src="power-off"></md-icon>
-                </md-button>
-
-              </div>
-              <md-divider ng-repeat-end ng-if="!$last"></md-divider>
-            </md-card-content>
-          </md-card>
-          <md-card ng-show="ctrl.showControls">
-            <md-card-content>
-              <div layout="row" layout-align="space-between center">
-                <md-button ng-click="ctrl.powerOnAll()" class="md-fab md-warn" aria-label="Power On All">
-                  <md-icon md-svg-src="power-on"></md-icon>
-                </md-button>
-                <md-card-title translate="ALL_CONTROLS"></md-card-title>
-                <md-button ng-click="ctrl.powerOffAll()" class="md-fab md-warn" aria-label="Power Off All">
-                  <md-icon md-svg-src="power-off"></md-icon>
-                </md-button>
-              </div>
-            </md-card-content>
-          </md-card>
-        </div>
+        <panel-widget></panel-widget>
       </div>
 
       <!-- About page -->
@@ -226,6 +196,7 @@
   <script src="./src/panel/PowerControlService.js"></script>
   <script src="./src/panel/PanelController.js"></script>
   <script src="./src/panel/ConfigService.js"></script>
+  <script src="./src/panel/PanelDirective.js"></script>
 
   <script src="./src/main/AboutService.js"></script>
   <script src="./src/main/MainController.js"></script>
