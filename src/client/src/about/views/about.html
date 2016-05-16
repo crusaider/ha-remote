@@ -8,9 +8,9 @@
                 <h1 class="md-title" translate="APPNAME"></h1>
                 <h2 class="md-subhead"><span translate="W_VERSION"></span> <span ng-bind="::c.version"></span></h2>
                 <h2 class="me-title" translate="W_MODULES"></h2>
-                <p ng-repeat="pi in c.packageInfos">
+                <span ng-repeat="pi in c.packageInfos">
                     <span ng-bind="::pi.name"></span> - v<span ng-bind="::pi.version"></span>
-                </p>
+                </span>
 
                 <h2 class="me-title">The MIT License (MIT)</h2>
                 <p>Copyright (c) <span ng-bind="::c.copyrightYear"></span> <span ng-bind="::c.copyrightHolders"></span></p>
