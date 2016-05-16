@@ -11,7 +11,7 @@ The main idea behind the project has been to make it easier to "sell" home autom
 
 ## Installation
 
-Clone the repo to a location on your machine, from the root directory of the repo issue the `npm install --production` command.
+Clone the repo to a location on your machine, from the root directory of the repo issue the `$ npm install --production` command.
 
 ## Device Configuration
 
@@ -59,10 +59,10 @@ The application is configured trough a number of environment variables that can 
 | Variable | Default Value | Comment |
 |:---------|:--------------|:--------|
 |`LOGLEVEL`|`info`|Granulairity of server side log messages, has to be one of `debug`, `info`, `warn` or `error`.|
-|`PORT`| 8080|HTTP Ports the server will listen on|
+|`PORT`| `8080`|HTTP Ports the server will listen on|
 |`CONFIGFILE`|`./src/configuration.json`|The file in where to read information about the controls to render to the user and how to associate them to devices in Home Assistant.|
 |`PASSWORD`|Empty string|The password users has to supply in the web GUI to login to the application.|
-|`TOKEN_SALT`|None - has to be set, if not the server will not start.|A salt used to generate the authentication token as part of the login and authorization. Any randoom string will do, the longer the better. Can for example be generated using openssl: `openssl rand -base64 64`|
+|`TOKEN_SALT`|None - has to be set, if not the server will not start.|A salt used to generate the authentication token as part of the login and authorization. Any randoom string will do, the longer the better. Can for example be generated using openssl: `$ openssl rand -base64 64`|
 |`HA_SERVER`|`http://localhost:8123`|Remote Home Assistant instance to delegate controll commands to.|
 |`HA_PASSWORD`|Empty string|Password to use to authenticate to the Home Assistance instance.|
 
@@ -72,13 +72,34 @@ The repo contains a set of SLL files that is self signed. To use another certifi
 
 # Starting the server
 
-In the root directory of the repo run the comand `npm start`. This will start the server and start logging to `STDOUT`. *(Please note that the server will not start if it does not find the environment varaible `TOKEN_SALT`)*.
+In the root directory of the repo run the comand `$ npm start`. This will start the server and start logging to `STDOUT`. *(Please note that the server will not start if it does not find the environment varaible `TOKEN_SALT`)*.
 
 # Running the app
 
 If no chnages to the default runtime configuration has been made the application is now being serverd on port 8080 of the host where it was started. Point your broweser to `https://localhost:8080' (asuming you run it locally). If you are running with the supplied SSL certificate you will have to accept them as untrusted in your browser. You should now be presented with the login screen. If no password has been set, the application will accept an empty password for login.
 
-# TODO
+# Development
+
+
+## API Simulator
+
+The API simulator `ha-sim` simulates the parts of the Home Assistant REST API used by the application. It can be used as a replacement for a real home assistnt installation during development and testing.
+
+## API Simulator Configuration
+The application is configured trough a number of environment variables that can be set before the server is started.
+
+| Variable | Default Value | Comment |
+|:---------|:--------------|:--------|
+|`LOGLEVEL`|`info`|Granulairity of simulator log messages, has to be one of `debug`, `info`, `warn` or `error`.|
+|`PORT`| 8081|HTTP Ports the API simlator will listen on|
+|`REQUESTDELAY`|`0`|Sets a delay, in miliseconds, that will be applied to all requests to the API before the response is returned. Allows simualation of real world timings of interaction with the API.|
+|`STATEDELAY`|`0`|Set's the dely, in miliseconds, between a call to the `/services*` API and the actual change of the entity state. This makes it possible to simulate the fact that the state is not always immediately updated in the Home Assistant system.|
+
+## Starting the Simulator
+
+In root of the repository issue `$ npm start ha-sim`. It will start the simualtion server in a separate process and start logging it's activity to `STDOUT`.
+
+## TODO
 
 **TODO:** It would be neat to be able to add and remove devices from the GUI.
 
@@ -87,7 +108,7 @@ If no chnages to the default runtime configuration has been made the application
 **TODO:** Security - even if the current solution probably is good enough for this kind of app it could be improved and would need a second pair of eyes (that know that kind of stuff) to have a look.
 
 
-# Contact
+## Contact
 Questions, comments, suggestions: jonas.m.andreasson(a)gmail.com.
 
 Development: Send a pull request on github [https://github.com/crusaider/ha-remote](https://github.com/crusaider/ha-remote)

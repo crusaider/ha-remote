@@ -34,14 +34,13 @@ module.exports.router = express.Router();
 module.exports.router.route('/authn')
 
     .post(function (req, res) {
-        
-        logger.debug("req.ip: %s", req.ip);
-        logger.debug("req.hostname: %s", req.hostname);
-        
+
         if ( req.body.password != password ) {
+            logger.info("Refused token due to invalid password.")
             return res.status(401).json({ error: "Invalid password"});
         }
         
+        logger.info("Password valid, issuing token based on hostname: %s and client ip: %s", req.hostname, req.ip );
         res.json({ token: computeToken(req.body.password, req.ip, req.hostname, tokenSalt )});
     });
 
@@ -56,6 +55,13 @@ module.exports.authnFilter = function(req,res,next) {
         logger.debug("Authorizing");
         if ( req.headers.authorization == undefined
             || req.headers.authorization != computeToken(password, req.ip, req.hostname, tokenSalt )  ) {
+            
+            if(req.headers.authorization == undefined) {
+               logger.info("Refused access due to missing token");
+            } else {
+               logger.info("Refused access due to invalid token");
+            }
+ 
             return res.status(401).send();
         }
          

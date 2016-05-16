@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="haRemoteApp">
+<html lang="en" ng-app="ha-remote">
 
 <head>
   <title translate="TITLE"></title>
@@ -120,7 +120,7 @@
                 </md-input-container>
                 </div>
                 <div layout="row" layout-align="end none">
-                <md-button ng-disabled="ctrl.password == '' || ctrl.loginDisabled" class="md-raised md-primary" ng-click="ctrl.submitPassword()"
+                <md-button ng-disabled="ctrl.loginDisabled" class="md-raised md-primary" ng-click="ctrl.submitPassword()"
                   translate="W_LOGIN" aria-label="Login"></md-button>
                   </div>
               </form>
@@ -133,37 +133,7 @@
       <!-- Control Panel -->
 
       <div ng-if="ctrl.selected == 'panel'">
-        <div ng-controller="PanelController as ctrl">
-          <md-progress-linear md-mode="indeterminate" ng-show="ctrl.showProgress"></md-progress-linear>
-          <md-card ng-show="ctrl.showControls">
-            <md-card-content>
-              <div ng-repeat-start="c in ctrl.controls" layout="row" layout-align="space-between center">
-                <md-button ng-click="ctrl.powerOn( c )" class="md-fab md-primary" aria-label="Power On">
-                  <md-icon md-svg-src="power-on"></md-icon>
-                </md-button>
-                <md-card-title>{{c.caption}}</md-card-title>
-                <md-button ng-click="ctrl.powerOff( c )" class="md-fab md-primary" aria-label="Power Off">
-                  <md-icon md-svg-src="power-off"></md-icon>
-                </md-button>
-
-              </div>
-              <md-divider ng-repeat-end ng-if="!$last"></md-divider>
-            </md-card-content>
-          </md-card>
-          <md-card ng-show="ctrl.showControls">
-            <md-card-content>
-              <div layout="row" layout-align="space-between center">
-                <md-button ng-click="ctrl.powerOnAll()" class="md-fab md-warn" aria-label="Power On All">
-                  <md-icon md-svg-src="power-on"></md-icon>
-                </md-button>
-                <md-card-title translate="ALL_CONTROLS"></md-card-title>
-                <md-button ng-click="ctrl.powerOffAll()" class="md-fab md-warn" aria-label="Power Off All">
-                  <md-icon md-svg-src="power-off"></md-icon>
-                </md-button>
-              </div>
-            </md-card-content>
-          </md-card>
-        </div>
+        <panel-widget></panel-widget>
       </div>
 
       <!-- About page -->
@@ -214,34 +184,27 @@
   <script src="./node_modules/angular-translate/dist/angular-translate.min.js"></script>
   <script src="./node_modules/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
-  <script src="./src/main/main.js"></script>
-  <script src="./src/main/translations.js"></script>
-  <script src="./src/main/ConfigService.js"></script>
+  <script src="./src/ha-remote.js"></script>
+
+  <script src="./src/shared/translations/translations.js"></script>
+
+  <script src="./src/shared/authn/authn.js"></script>
+  <script src="./src/shared/authn/AuthnService.js"></script>
+  <script src="./src/shared/authn/401Interceptor.js"></script>
+  
+ <script src="./src/shared/window-events/window-events.js"></script>
+
+  <script src="./src/panel/panel.js"></script>
+  <script src="./src/panel/PowerControlService.js"></script>
+  <script src="./src/panel/PanelController.js"></script>
+  <script src="./src/panel/ConfigService.js"></script>
+  <script src="./src/panel/PanelDirective.js"></script>
+  <script src="./src/panel/ControlDirective.js"></script>
+  <script src="./src/panel/ControlController.js"></script>
+
   <script src="./src/main/AboutService.js"></script>
-  <script src="./src/main/AuthnService.js"></script>
-  <script src="./src/main/PowerControlService.js"></script>
   <script src="./src/main/MainController.js"></script>
-  <script src="./src/main/PanelController.js"></script>
   <script src="./src/main/AboutController.js"></script>
-
-  <script type="text/javascript">
-    angular
-              .module('haRemoteApp', ['ngMaterial', 'main'])
-              .config(function($mdThemingProvider, $mdIconProvider){
-
-                  $mdIconProvider
-                      .defaultIconSet('./assets/svg/mdi.svg')
-                      .icon("menu"       , "./assets/svg/menu.svg",       24)
-                      .icon("power-on"   , "./assets/svg/power-on.svg",   24 )
-                      .icon("power-off"  , "./assets/svg/power-off.svg",  24 )
-                      .icon("logo"      , "./assets/svg/remote-control.svg", 12);
-
-                  $mdThemingProvider.theme('default')
-                      .primaryPalette('blue')
-                      .accentPalette('red');
-
-              });
-  </script>
 
 </body>
 
