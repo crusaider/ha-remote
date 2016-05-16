@@ -40,8 +40,8 @@ module.exports.router.route('/authn')
             return res.status(401).json({ error: "Invalid password"});
         }
         
-        logger.info("Password valid, issuing token based on hostname: %s and client ip: %s", req.hostname, req.ip );
-        res.json({ token: computeToken(req.body.password, req.ip, req.hostname, tokenSalt )});
+        logger.info("Password valid, issuing token based on hostname: %s", req.hostname );
+        res.json({ token: computeToken(req.body.password, req.hostname, tokenSalt )});
     });
 
 /**
@@ -54,7 +54,7 @@ module.exports.authnFilter = function(req,res,next) {
     if ( req.path.match('/api.*') && req.path != '/api/authn' ) {
         logger.debug("Authorizing");
         if ( req.headers.authorization == undefined
-            || req.headers.authorization != computeToken(password, req.ip, req.hostname, tokenSalt )  ) {
+            || req.headers.authorization != computeToken(password, req.hostname, tokenSalt )  ) {
             
             if(req.headers.authorization == undefined) {
                logger.info("Refused access due to missing token");
@@ -69,11 +69,10 @@ module.exports.authnFilter = function(req,res,next) {
    next();
 }
 
-function computeToken(password, ip, hostname, salt ) {
+function computeToken(password, hostname, salt ) {
 
     var tokenObject = {
         password: password,
-        ip: ip,
         hostname: hostname     
     }
     return new Hashes.MD5().hex_hmac(salt, JSON.stringify(tokenObject)).toUpperCase();
