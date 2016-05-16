@@ -62,7 +62,7 @@
 
       <md-content layout-padding ng-show="ctrl.selected != 'login'">
         <md-list>
-          <md-list-item >
+          <md-list-item>
             <md-icon md-svg-icon="remote"></md-icon>
             <md-button translate="MENU_PANEL" ng-click="ctrl.select('panel')" ng-class="{ 'md-warn' : ctrl.selected == 'panel'}" class="md-primary menu-item-button"
               aria-label="Show control panel">
@@ -113,16 +113,16 @@
             <div layout="row" layout-align="center none">
               <form name="loginForm" ng-submit="ctrl.submitPassword()">
                 <div layout="row">
-                <md-input-container>
-                  <label translate="W_PASSWORD"></label>
-                  <input type="password" ng-model="ctrl.password" ng-disabled="ctrl.loginDisabled">
-                  <ng-message ng-if="ctrl.loginFailed && ctrl.password == '' " translate="WRONG_PASSWORD"></ng-message>
-                </md-input-container>
+                  <md-input-container>
+                    <label translate="W_PASSWORD"></label>
+                    <input type="password" ng-model="ctrl.password" ng-disabled="ctrl.loginDisabled">
+                    <ng-message ng-if="ctrl.loginFailed && ctrl.password == '' " translate="WRONG_PASSWORD"></ng-message>
+                  </md-input-container>
                 </div>
                 <div layout="row" layout-align="end none">
-                <md-button ng-disabled="ctrl.loginDisabled" class="md-raised md-primary" ng-click="ctrl.submitPassword()"
-                  translate="W_LOGIN" aria-label="Login"></md-button>
-                  </div>
+                  <md-button ng-disabled="ctrl.loginDisabled" class="md-raised md-primary" ng-click="ctrl.submitPassword()" translate="W_LOGIN"
+                    aria-label="Login"></md-button>
+                </div>
               </form>
             </div>
           </md-card-content>
@@ -139,40 +139,8 @@
       <!-- About page -->
 
       <div ng-if="ctrl.selected == 'about'">
-        <div ng-controller="AboutController as ctrl">
-          <md-card>
-            <md-card-content class="md-body-1">
-              <div layout=row>
-                <md-icon md-svg-src="logo" class="big-logo"></md-icon>
-              </div>
-              <div layout="column">
-                <h1 class="md-title" translate="APPNAME"></h1>
-                <h2 class="md-subhead"><span translate="W_VERSION"></span> <span ng-bind="::ctrl.version"></span></h2>
-                <h2 class="me-title" translate="W_MODULES"></h2>
-                <p ng-repeat="pi in ctrl.packageInfos">
-                  <span ng-bind="::pi.name"></span> - v<span ng-bind="::pi.version"></span>
-                </p>
-
-                <h2 class="me-title">The MIT License (MIT)</h2>
-                <p>Copyright (c) <span ng-bind="::ctrl.copyrightYear"></span> <span ng-bind="::ctrl.copyrightHolders"></span></p>
-
-                <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-                  documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-                  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-                  and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-
-                <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions
-                  of the Software.</p>
-
-                <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-                  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-                  SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-                  AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-                  USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-            </md-card-content>
-          </md-card>
-          </div>
-        </div>
+        <about-widget></about-widget>
+      </div>
     </md-content>
   </section>
 
@@ -191,8 +159,8 @@
   <script src="./src/shared/authn/authn.js"></script>
   <script src="./src/shared/authn/AuthnService.js"></script>
   <script src="./src/shared/authn/401Interceptor.js"></script>
-  
- <script src="./src/shared/window-events/window-events.js"></script>
+
+  <script src="./src/shared/window-events/window-events.js"></script>
 
   <script src="./src/panel/panel.js"></script>
   <script src="./src/panel/PowerControlService.js"></script>
@@ -202,9 +170,13 @@
   <script src="./src/panel/ControlDirective.js"></script>
   <script src="./src/panel/ControlController.js"></script>
 
-  <script src="./src/main/AboutService.js"></script>
+  <script src="./src/about/about.js"></script>
+  <script src="./src/about/AboutDirective.js"></script>
+  <script src="./src/about/AboutController.js"></script>
+  <script src="./src/about/AboutService.js"></script>
+  
   <script src="./src/main/MainController.js"></script>
-  <script src="./src/main/AboutController.js"></script>
+
 
 </body>
 

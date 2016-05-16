@@ -1,7 +1,7 @@
 (function () {
 
   angular
-    .module('ha-remote')
+    .module('ha-remote.about')
     .controller('AboutController',
     [
       'aboutService',
