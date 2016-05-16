@@ -54,7 +54,7 @@ module.exports.authnFilter = function(req,res,next) {
     if ( req.path.match('/api.*') && req.path != '/api/authn' ) {
         logger.debug("Authorizing");
         if ( req.headers.authorization == undefined
-            || req.headers.authorization != computeToken(password, req.hostname, tokenSalt )  ) {
+            || req.headers.authorization != "Bearer: ".concat(computeToken(password, req.hostname, tokenSalt ))  ) {
             
             if(req.headers.authorization == undefined) {
                logger.info("Refused access due to missing token");
