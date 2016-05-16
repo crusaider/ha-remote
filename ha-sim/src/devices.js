@@ -24,10 +24,22 @@ module.exports = {
         devices[getDeviceIndex(entity_id)].state = "on";
     },
 
+    /**
+     * Sets the state of the entity to "off".
+     * 
+     * @param entity_id 
+     */
     switchOff: function (entity_id) {
         devices[getDeviceIndex(entity_id)].state = "off";
     },
 
+    /**
+     * Returns the current state of the entity
+     * 
+     * @parawm entity_id 
+     * @returns The state as a string ("on"/"off") or undefined if the 
+     * entity does not exist.
+     */
     getState: function (entity_id) {
         var index = getDeviceIndex(entity_id);
         if ( index == -1 ) {
