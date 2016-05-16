@@ -1,3 +1,9 @@
+/**
+ * Retrives version information from the backend. 
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
 (function () {
   'use strict';
 

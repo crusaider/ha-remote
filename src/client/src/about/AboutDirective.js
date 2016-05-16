@@ -1,6 +1,5 @@
 /**
- * 
- * Render the control panel
+ * A element directive that renders the about page. 
  * 
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT

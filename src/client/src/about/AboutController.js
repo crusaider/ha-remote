@@ -1,5 +1,14 @@
-(function () {
+/**
+ * Controller backs the ABOUT-WIDGET directive and renders the about
+ * page. 
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
 
+(function () {
+  'use strict';
+  
   angular
     .module('ha-remote.about')
     .controller('AboutController',
@@ -10,9 +19,6 @@
       AboutController
     ]);
 
-  /**
-   * Main Controller for the Angular Material Starter App
-   */
   function AboutController(aboutService, $log, $translate) {
     var self = this;
 
