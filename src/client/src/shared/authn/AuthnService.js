@@ -73,7 +73,7 @@
 
     function setToken(newToken) {
       localStorageService.set('AuthToken', newToken);
-      $http.defaults.headers.common.Authorization = newToken;
+      $http.defaults.headers.common.Authorization = "Bearer: ".concat(newToken);
       $log.debug("New token stored");
     }
 
