@@ -27,11 +27,11 @@ router.route('/services/:domain/:service')
         switch (req.params.service) {
 
             case "turn_on":
-                devices.switchOn(req.body.entity_id);
+                flipSwitch(req.body.entity_id,devices.switchOn);
                 return res.send(200);
 
             case "turn_off":
-                devices.switchOff(req.body.entity_id);
+                flipSwitch(req.body.entity_id,devices.switchOff);
                 return res.send(200);
 
             default:
@@ -40,6 +40,23 @@ router.route('/services/:domain/:service')
 
         }
     });
+
+/**
+ * Flips a switch with a optional delay to be able to simluate the 
+ * fact that HA not always reflects the new state of a entitiy
+ * emediatley.
+ * 
+ * Defauls to 10 ms delay - can be set trough STATEDELAY environment
+ * variable.
+ * 
+ * @param entity_id The entity to flip
+ * @param executor the switch function (on or off)
+ */
+function flipSwitch(entity_id, executor ) {
+    setTimeout(function() {
+        executor(entity_id);
+    }, process.env.STATEDELAY || 10 );
+}
 
 router.route('/states/:entity_id')
 

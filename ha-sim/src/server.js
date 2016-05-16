@@ -33,7 +33,10 @@ app.use(bodyParser.json());
 //
 // Log all requests
 app.use(function(req,res,next){
-    next();
+    setTimeout(function(){
+        next();
+    }, process.env.REQUESTDELAY || 1000 );
+    
     logger.info("%s %s : %s", req.method, req.originalUrl, res.statusCode );  
 });
 
