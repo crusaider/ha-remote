@@ -6,7 +6,8 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "ha-sim": "node ha-sim/src/server.js"
   },
   "bugs": {
     "url": "https://github.com/crusaider/ha-remote/issues",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "angular-mocks": "^1.4.9",
+    "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
