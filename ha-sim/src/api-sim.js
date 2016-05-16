@@ -55,7 +55,7 @@ router.route('/services/:domain/:service')
 function flipSwitch(entity_id, executor ) {
     setTimeout(function() {
         executor(entity_id);
-    }, process.env.STATEDELAY || 10 );
+    }, process.env.STATEDELAY || 0 );
 }
 
 router.route('/states/:entity_id')

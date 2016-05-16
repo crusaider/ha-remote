@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.use(function(req,res,next){
     setTimeout(function(){
         next();
-    }, process.env.REQUESTDELAY || 1000 );
+    }, process.env.REQUESTDELAY || 0 );
     
     logger.info("%s %s : %s", req.method, req.originalUrl, res.statusCode );  
 });
