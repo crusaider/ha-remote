@@ -49,6 +49,7 @@
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.6",
-    "live-server": "^0.9.1"
+    "live-server": "^0.9.1",
+    "sinon": "^1.17.4"
   }
 }
