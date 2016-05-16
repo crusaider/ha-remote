@@ -1,21 +1,25 @@
+/**
+ * Top Level controller for the app. 
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
+
 (function () {
   'use strict';
   angular
     .module('ha-remote')
-    .controller('MainController',
+    .controller('AppController',
     [
       'authnService',
       '$mdSidenav',
       '$log',
       '$translate',
       '$scope',
-      MainController
+      AppController
     ]);
-
-  /**
-   * Main Controller for the Angular Material Starter App
-   */
-  function MainController(authnService, $mdSidenav, $log, $translate, $scope ) {
+  
+  function AppController(authnService, $mdSidenav, $log, $translate, $scope ) {
     var self = this;
 
     if ( authnService.isAuthenticated() ) {

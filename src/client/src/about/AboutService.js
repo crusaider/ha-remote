@@ -1,7 +1,13 @@
+/**
+ * Retrives version information from the backend. 
+ * 
+ * @author Jonas <jonas.m.andreasson@gmail.com>
+ * @license MIT
+ */
 (function () {
   'use strict';
 
-  angular.module('ha-remote')
+  angular.module('ha-remote.about')
     .service('aboutService', ['$q', '$http', '$log', AboutService]);
 
 
