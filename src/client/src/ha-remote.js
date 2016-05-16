@@ -4,7 +4,8 @@
     'ngMaterial',
     'ha-remote.panel',
     'ha-remote.translations',
-    'ha-remote.authn']);
+    'ha-remote.authn',
+    'ha-remote.about']);
 
 
   /**
