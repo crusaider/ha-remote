@@ -33,23 +33,21 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var https = require('https');
 
-// Override express default logger with a winston logger
-logger.debug("Overriding 'Express' logger");
-app.use(require('morgan')({ "stream": logger.stream }));
-
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Add logger middleware
+app.use(require('./utils/request-logger'));
+
 // Serve client code as static assets
 app.use(express.static('./src/client'));
 app.use('/node_modules', express.static('./node_modules'));
 
+
 //
 // Set up authorization
-
-
 app.use(authn.authnFilter);
 
 // ROUTES FOR THE API
