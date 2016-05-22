@@ -20,7 +20,7 @@
     return {
       /**
        * Authenticate the user against the backend. On sucessfull authentication
-       * add the returned token to the $http configuration to be attached
+       * adds the returned token to the $http configuration to be attached
        * to all future requests. The token will also be stored in local 
        * storage to be able to survive sessions.
        * 
@@ -51,7 +51,7 @@
        * and local storage.
        */
       logout: function () {
-        removeToken()
+        invalidateToken()
       },
 
       /**
@@ -60,10 +60,10 @@
        * @returns True if authenticated
        */
       isAuthenticated: function () {
-        var token = localStorageService.get('AuthToken');
+        var token = loadToken();
 
         if (token) {
-          $http.defaults.headers.common.Authorization = token;
+          addTokenToHttp(token);
           return true;
         } else {
           return false;
@@ -71,13 +71,26 @@
       }
     };
 
-    function setToken(newToken) {
-      localStorageService.set('AuthToken', newToken);
-      $http.defaults.headers.common.Authorization = "Bearer: ".concat(newToken);
-      $log.debug("New token stored");
+    function setToken(token) {
+      storeToken(token);
+      addTokenToHttp(token);
     }
 
-    function removeToken() {
+    function storeToken( token ) {
+      localStorageService.set('AuthToken', token);
+      $log.debug("Token stored in local storage");
+    }
+    
+    function loadToken() {
+       return localStorageService.get('AuthToken');
+    }
+
+    function addTokenToHttp( token ) {
+      $http.defaults.headers.common.Authorization = "Bearer: ".concat(token);
+      $log.debug("Token attached to $http");
+    }
+
+    function invalidateToken() {
       localStorageService.remove('AuthToken');
       $log.debug("Token removed");
     }
