@@ -17,10 +17,11 @@
       '$mdToast',
       '$translate',
       '$scope',
+      '$timeout',
       ControlController
     ]);
 
-  function ControlController(powerControlService, $log, $mdToast, $translate, $scope) {
+  function ControlController(powerControlService, $log, $mdToast, $translate, $scope, $timeout) {
     var self = this;
 
     // TODO: Is this a hack? Any other way to get a reference to it?
@@ -95,7 +96,7 @@
         })
     }
 
-    function updateState() {
+    function updateState(final) {
 
       powerControlService.getState(self.control.id)
         .then(function (data) {
@@ -111,11 +112,19 @@
               self.state = "state-unknown";
           }
           $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
-
+          rescheduleUpdateState(final);
         }, function () {
           self.state = "unknown";
           $log.debug("Could not get state of device %s setting it to %s", self.control.caption, self.state);
+          rescheduleUpdateState(final);
         })
+    }
+
+    function rescheduleUpdateState(final) {
+      if (!final) {
+        $log.debug("Rescheduling update state of %s", self.control.caption );
+        $timeout(function () { updateState(true) }, 500);
+      }
     }
 
     function showProgress() {
