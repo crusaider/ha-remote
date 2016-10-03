@@ -17,10 +17,11 @@
       '$mdToast',
       '$translate',
       '$scope',
+      '$timeout',
       ControlController
     ]);
 
-  function ControlController(powerControlService, $log, $mdToast, $translate, $scope) {
+  function ControlController(powerControlService, $log, $mdToast, $translate, $scope, $timeout) {
     var self = this;
 
     // TODO: Is this a hack? Any other way to get a reference to it?
@@ -95,7 +96,14 @@
         })
     }
 
-    function updateState() {
+    /**
+     * Calls the backend to check the state of the control and
+     * update the indicator on screen
+     * 
+     * @param {boolean} final - If true, only on call will be executed,
+     * if falsy a second cal to update state will be done after a delay.
+     */
+    function updateState(final) {
 
       powerControlService.getState(self.control.id)
         .then(function (data) {
@@ -111,11 +119,25 @@
               self.state = "state-unknown";
           }
           $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
-
+          rescheduleUpdateState(final);
         }, function () {
           self.state = "unknown";
           $log.debug("Could not get state of device %s setting it to %s", self.control.caption, self.state);
+          rescheduleUpdateState(final);
         })
+    }
+
+    /**
+     * Shedules a call to updateState(true) after a delay
+     * 
+     * @param {boolean} final - If falsy the call will be scheduled, 
+     * otherwise not.
+     */
+    function rescheduleUpdateState(final) {
+      if (!final) {
+        $log.debug("Rescheduling update state of %s", self.control.caption );
+        $timeout(function () { updateState(true) }, 500);
+      }
     }
 
     function showProgress() {
