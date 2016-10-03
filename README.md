@@ -1,5 +1,5 @@
 # HA Remote
-A simplified GUI for Home Assistant making is possible to choose a subset of devices managed by a Home Assistant installation and make them visible in a separate GUI from home assistant.
+A simplified GUI for Home Assistant and Telldus Live making is possible to choose a subset of devices managed by a Home Assistant installation and/or Telldus Live and make them visible in a separate GUI from home assistant.
 
 The main idea behind the project has been to make it easier to "sell" home automation to not to technical family members. This is supposed to be achieved by mimicing physical controls but still making them available in a mobile device.
 
@@ -24,6 +24,7 @@ A sample configuration file:
 	{
     "controls": [
         {
+            "backend": "ha"
             "caption": "Vardagsrum",
             "device_id": "group.vardagsrum",
             "service": {
@@ -33,23 +34,20 @@ A sample configuration file:
             }
         },
         {
-            "caption": "Kontor",
-            "device_id": "group.kontor",
-            "service": {
-                "domain": "switch",
-                "onService": "turn_on",
-                "offService": "turn_off"
-            }
+            "backend": "telldus",
+            "caption": "Garagebänk",
+            "device_id": "1268183"
         },
     ]
 }
 
 Each device that should be possible to control needs to be listed in the file as part of the array named `"controls"`.
 
+* `"backend"` is one of two values depeding on if the device is managed by home assistant (`ha`) or Telldus Live (`telldus`)
 * `"caption"` is the name of the device that will be visible in the application GUI.
 * `"device_id"` is the id of the device in the Home Assistant system that manages the device.
 
-The `"service"` object defines how the device can be switched on and off trough the Home Assistant REST API Endpoint `/api/services` please refer to the [Home Assistant API documentation](https://home-assistant.io/developers/rest_api/#post-apiservicesltdomainltservice).
+The `"service"` object, only relevant for a Home Assitant devices, defines how the device can be switched on and off trough the Home Assistant REST API Endpoint `/api/services` please refer to the [Home Assistant API documentation](https://home-assistant.io/developers/rest_api/#post-apiservicesltdomainltservice).
 
 The repo contains a sample configuration file at `src/configuration.json`.
 
@@ -62,9 +60,17 @@ The application is configured trough a number of environment variables that can 
 |`PORT`| `8080`|HTTP Ports the server will listen on|
 |`CONFIGFILE`|`./src/configuration.json`|The file in where to read information about the controls to render to the user and how to associate them to devices in Home Assistant.|
 |`PASSWORD`|Empty string|The password users has to supply in the web GUI to login to the application.|
-|`TOKEN_SALT`|None - has to be set, if not the server will not start.|A salt used to generate the authentication token as part of the login and authorization. Any randoom string will do, the longer the better. Can for example be generated using openssl: `$ openssl rand -base64 64`|
-|`HA_SERVER`|`http://localhost:8123`|Remote Home Assistant instance to delegate controll commands to.|
-|`HA_PASSWORD`|Empty string|Password to use to authenticate to the Home Assistance instance.|
+|`TOKEN_SALT`|None - has to be set, if not the server will not start.|A salt used to generate the authentication token as part of the login and authorization. Any random string will do, the longer the better. Can for example be generated using openssl: `$ openssl rand -base64 64`|
+|`HA_SERVER`|`http://localhost:8123`|Remote Home Assistant instance to delegate controll commands to. Only used of any of the controlled devices is managed trough a Home Assistant installation.|
+|`HA_PASSWORD`|Empty string|Password to use to authenticate to the Home Assistance instance. Only used of any of the controlled devices is managed trough a Home Assistant installation.|
+|`TELLDUS_PUBLIC_KEY`|Undefined|Telldus public key |
+|`TELLDUS_PRIVATE_KEY`|Undefined|Telldus private key.|
+|`TELLDUS_TOKEN`|Undefined|Telldus user token.|
+|`TELLDUS_TOKEN_SECRET`|Undefined|Telldus user token secret.|
+
+### Telldus API keys
+To be able to integration with telldus live you will have to supply four different values in the enviroment, the API keys and user tokens can be generated on the [Telldus Live API website](http://api.telldus.com/keys/index).
+
 
 ## SSL
 
@@ -76,7 +82,7 @@ In the root directory of the repo run the comand `$ npm start`. This will start 
 
 # Running the app
 
-If no chnages to the default runtime configuration has been made the application is now being serverd on port 8080 of the host where it was started. Point your broweser to `https://localhost:8080' (asuming you run it locally). If you are running with the supplied SSL certificate you will have to accept them as untrusted in your browser. You should now be presented with the login screen. If no password has been set, the application will accept an empty password for login.
+If no chnages to the default runtime configuration has been made the application is now being serverd on port 8080 of the host where it was started. Point your browser to `https://localhost:8080' (asuming you run it locally). If you are running with the supplied SSL certificate you will have to accept them as untrusted in your browser. You should now be presented with the login screen. If no password has been set, the application will accept an empty password for login.
 
 # Development
 
@@ -97,7 +103,7 @@ The application is configured trough a number of environment variables that can 
 
 ## Starting the Simulator
 
-In root of the repository issue `$ npm start ha-sim`. It will start the simualtion server in a separate process and start logging it's activity to `STDOUT`.
+In root of the repository issue `$ npm start ha-sim`. It will start the simulation server in a separate process and start logging it's activity to `STDOUT`.
 
 ## TODO
 

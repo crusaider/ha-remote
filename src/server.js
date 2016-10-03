@@ -4,6 +4,7 @@
 var logger = require('./utils/logger');
 var config = require('./utils/config');
 var ha = require('./ha-api');
+var telldus = require('./telldus-api');
 var authn = require('./routers/authn');
 
 var port = process.env.PORT || 8080;
@@ -19,6 +20,10 @@ logger.info("HTTP(S) port: %s", port );
 logger.info("Control configuration file: %s", config.configFileName);
 logger.info("HA Server: %s", ha.url);
 logger.info("HA Password: %s", ha.password);
+logger.info("Telldus public key: %s", telldus.isPublicKeySet ? "Is set" : "Is NOT set");
+logger.info("Telldus private key: %s", telldus.isPrivateKeySet ? "Is set" : "Is NOT set");
+logger.info("Telldus token: %s", telldus.isTelldusTokenSet ? "Is set" : "Is NOT set");
+logger.info("Telldus token secret: %s", telldus.isTelldusTokenSecretSet ? "Is set" : "Is NOT set");
 logger.info("Password: %s", authn.hasPassword() ? "Is set" : "Is NOT set");
 logger.info("Token salt: %s", authn.hasTokenSalt() ? "Is set" : "Is NOT set");
 logger.info("============================================================");

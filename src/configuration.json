@@ -1,6 +1,12 @@
 {
     "controls": [
         {
+            "backend": "telldus",
+            "caption": "Garagebänk",
+            "device_id": "1268183"
+        },
+        {
+            "backend": "ha",
             "caption": "Vardagsrum",
             "device_id": "group.vardagsrum",
             "service": {
@@ -10,6 +16,7 @@
             }
         },
         {
+            "backend": "ha",
             "caption": "Kontor",
             "device_id": "group.kontor",
             "service": {
@@ -19,6 +26,7 @@
             }
         },
         {
+            "backend": "ha",
             "caption": "Allrum",
             "device_id": "group.allrum",
             "service": {
@@ -28,8 +36,19 @@
             }
         },
         {
+            "backend": "ha",
             "caption": "Sovrum & Gästrum",
             "device_id": "group.sovrum__gstrum",
+            "service": {
+                "domain": "switch",
+                "onService": "turn_on",
+                "offService": "turn_off"
+            }
+        },
+        {
+            "backend": "ha",
+            "caption": "Parkering",
+            "device_id": "switch.strlkastare_parkering",
             "service": {
                 "domain": "switch",
                 "onService": "turn_on",
