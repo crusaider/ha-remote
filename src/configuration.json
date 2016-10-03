@@ -3,12 +3,7 @@
         {
             "backend": "telldus",
             "caption": "Garagebänk",
-            "device_id": "1268183",
-            "service": {
-                "domain": "switch",
-                "onService": "turn_on",
-                "offService": "turn_off"
-            }
+            "device_id": "1268183"
         },
         {
             "backend": "ha",
