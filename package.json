@@ -1,7 +1,7 @@
 {
   "name": "ha-remote",
   "private": true,
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A simplified GUI for Home Assistant making is possible to choose a subset of devices managed by a Home Assistant installation and make them visible in a separate GUI from home assistant.",
   "main": "src/server.js",
   "scripts": {
