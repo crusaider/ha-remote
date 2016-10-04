@@ -9,13 +9,13 @@
 
   angular
     .module('ha-remote.panel')
-    .directive('panelWidget', [ function(){
+    .directive('panelWidget', [function () {
 
-        return {
-            templateUrl : 'src/panel/views/panel.html',
-            restrict : 'AE'
-        };
-    
+      return {
+        templateUrl: 'src/panel/views/panel.html',
+        restrict: 'AE'
+      };
+
     }])
 
-}());
+} ());

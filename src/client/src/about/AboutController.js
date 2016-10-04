@@ -1,14 +1,14 @@
 /**
  * Controller backs the ABOUT-WIDGET directive and renders the about
- * page. 
- * 
+ * page.
+ *
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT
  */
 
 (function () {
   'use strict';
-  
+
   angular
     .module('ha-remote.about')
     .controller('AboutController',
@@ -31,9 +31,9 @@
         self.copyrightHolders = about.copyrightHolders;
         self.version = about.version;
         self.packageInfos = about.modules;
-        
+
       }, function (error) {
-        // TODO: Show toast fail message    
+        // TODO: Show toast fail message
 
       });
   }

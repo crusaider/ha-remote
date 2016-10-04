@@ -1,7 +1,7 @@
 /**
- * Controller that manages a single set of on and off buttons in the 
+ * Controller that manages a single set of on and off buttons in the
  * control panel.
- * 
+ *
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT
  */
@@ -99,7 +99,7 @@
     /**
      * Calls the backend to check the state of the control and
      * update the indicator on screen
-     * 
+     *
      * @param {boolean} final - If true, only on call will be executed,
      * if falsy a second cal to update state will be done after a delay.
      */
@@ -129,13 +129,13 @@
 
     /**
      * Shedules a call to updateState(true) after a delay
-     * 
-     * @param {boolean} final - If falsy the call will be scheduled, 
+     *
+     * @param {boolean} final - If falsy the call will be scheduled,
      * otherwise not.
      */
     function rescheduleUpdateState(final) {
       if (!final) {
-        $log.debug("Rescheduling update state of %s", self.control.caption );
+        $log.debug("Rescheduling update state of %s", self.control.caption);
         $timeout(function () { updateState(true) }, 500);
       }
     }

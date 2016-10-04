@@ -14,9 +14,9 @@ var port = process.env.PORT || 8080;
 // ============================================================================
 logger.info("============================================================");
 logger.info("Runtime configuration");
-logger.info("LogLevel: %s", logger.logLevel );
-logger.info("NODE_ENV: %s", process.env.NODE_ENV );
-logger.info("HTTP(S) port: %s", port );
+logger.info("LogLevel: %s", logger.logLevel);
+logger.info("NODE_ENV: %s", process.env.NODE_ENV);
+logger.info("HTTP(S) port: %s", port);
 logger.info("Control configuration file: %s", config.configFileName);
 logger.info("HA Server: %s", ha.url);
 logger.info("HA Password: %s", ha.password);
@@ -73,39 +73,39 @@ app.use('/api', require('./routers/controls'));
 // START THE HTTP(S) SERVER
 // =============================================================================
 var server = https.createServer({
-    key: fs.readFileSync('./src/ssl/key.pem'),
-    cert: fs.readFileSync('./src/ssl/cert.pem')
+  key: fs.readFileSync('./src/ssl/key.pem'),
+  cert: fs.readFileSync('./src/ssl/cert.pem')
 }, app).listen(port);
 
 logger.info('Web Server listening over SSL on ' + port);
 
 
-// SHUTDOWN THE APPLICATION WHEN ASKED TO 
+// SHUTDOWN THE APPLICATION WHEN ASKED TO
 // =============================================================================
 
 var shutdown = function () {
 
-    logger.info("Shuttting down API server")
-    server.close(function () {
-        logger.info("API Server closed sucessfully");
-        logger.info("Shutdown completed, exiting");
-        process.exit(0);
-    });
+  logger.info("Shuttting down API server")
+  server.close(function () {
+    logger.info("API Server closed sucessfully");
+    logger.info("Shutdown completed, exiting");
+    process.exit(0);
+  });
 
-    // if after 
-    setTimeout(function () {
-        logger.error("Could not close connections in time, forcefully shutting down");
-        process.exit()
-    }, 10 * 1000);
+  // if after
+  setTimeout(function () {
+    logger.error("Could not close connections in time, forcefully shutting down");
+    process.exit()
+  }, 10 * 1000);
 };
 
 process.on('SIGTERM', function () {
-    logger.info("Got signal SIGTERM, shutting down");
-    shutdown();
+  logger.info("Got signal SIGTERM, shutting down");
+  shutdown();
 
 });
 
 process.on('SIGINT', function () {
-    logger.info("Got signal SIGINT, shutting down");
-    shutdown();
+  logger.info("Got signal SIGINT, shutting down");
+  shutdown();
 });

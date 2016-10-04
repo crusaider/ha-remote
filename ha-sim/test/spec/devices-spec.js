@@ -28,17 +28,17 @@ describe("devices", function () {
   });
 
   it("switching on 'random' should throw an exeption", function () {
-    expect(function(){
+    expect(function () {
       devices.switchOn('random');
     }).toThrow();
   });
-  
-  if("state of 'group.vardagsrum' should be 'on' once it has been swicthed on", function(){
+
+  if ("state of 'group.vardagsrum' should be 'on' once it has been swicthed on", function () {
     devices.switchOn('group.vardagsrum');
     expect(devices.getState('group.vardagsrum')).toEqual("on");
   });
 
-  if("state of 'group.vardagsrum' should be 'off' once it has been swicthed off", function(){
+  if ("state of 'group.vardagsrum' should be 'off' once it has been swicthed off", function () {
     devices.switchOn('group.vardagsrum');
     expect(devices.getState('group.vardagsrum')).toEqual("on");
   });

@@ -18,11 +18,11 @@
       '$scope',
       AppController
     ]);
-  
-  function AppController(authnService, $mdSidenav, $log, $translate, $scope ) {
+
+  function AppController(authnService, $mdSidenav, $log, $translate, $scope) {
     var self = this;
 
-    if ( authnService.isAuthenticated() ) {
+    if (authnService.isAuthenticated()) {
       self.selected = 'panel';
     } else {
       self.selected = 'login';
@@ -37,7 +37,7 @@
     /**
      * Listen for authnFailed events to force a logon
      */
-    $scope.$on('authnFailed', function() {
+    $scope.$on('authnFailed', function () {
       $log.debug("Received authnFailed event");
       self.selected = 'login';
     });
@@ -57,14 +57,14 @@
      * Select a item from the menu, show the related main content
      */
     function select(selection) {
-      
-      if( selection == 'logout' ){
+
+      if (selection == 'logout') {
         authnService.logout();
         self.selected = 'login';
       } else {
         self.selected = selection;
-      }  
-  }
+      }
+    }
 
     /**
      * Handle login when password submitted
@@ -80,8 +80,8 @@
           self.password = "";
           self.loginDisabled = false;
           self.loginFailed = false;
-          self.select('panel');  
-      }, function (error) {
+          self.select('panel');
+        }, function (error) {
           $log.debug("Login failed");
           self.password = "";
           self.loginFailed = true;
