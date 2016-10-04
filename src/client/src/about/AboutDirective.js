@@ -1,6 +1,6 @@
 /**
- * A element directive that renders the about page. 
- * 
+ * A element directive that renders the about page.
+ *
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT
  */
@@ -8,13 +8,13 @@
 
   angular
     .module('ha-remote.about')
-    .directive('aboutWidget', [ function(){
+    .directive('aboutWidget', [function () {
 
-        return {
-            templateUrl : 'src/about/views/about.html',
-            restrict : 'E'
-        };
-    
+      return {
+        templateUrl: 'src/about/views/about.html',
+        restrict: 'E'
+      };
+
     }])
 
-}());
+} ());

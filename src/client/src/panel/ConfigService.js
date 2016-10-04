@@ -19,13 +19,13 @@
       load: function () {
 
         return $http.get('/api/config')
-        .then(function (res) {
-          $log.debug("Fetched configuration from server");
-          return res.data;
-        }, function (res) {
-          $log.info("Call to " + res.config.url + " failed with status " + res.status);
-          return $q.reject(res.data)
-        })
+          .then(function (res) {
+            $log.debug("Fetched configuration from server");
+            return res.data;
+          }, function (res) {
+            $log.info("Call to " + res.config.url + " failed with status " + res.status);
+            return $q.reject(res.data)
+          })
       }
     };
   }

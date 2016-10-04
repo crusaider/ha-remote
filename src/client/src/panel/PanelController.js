@@ -66,8 +66,8 @@
     /**
      * Exported functions
      */
- 
- 
+
+
     /**
     * Power off all controls
     */
@@ -109,7 +109,7 @@
           })
       })
     }
-    
+
     /**
      * Update state of all child controls when the window has 
      * gotten focus.
@@ -118,7 +118,7 @@
       $log.debug("PanelController#onWindowFocus");
       initUpdateState();
     }
-    
+
     /**
      * Internal functions
      */
