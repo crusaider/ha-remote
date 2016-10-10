@@ -10,7 +10,7 @@
 
   angular.module('ha-remote.authn')
     .service('authnService', ['localStorageService', '$q', '$http', '$log',
-    AuthnService]);
+      AuthnService]);
 
 
   function AuthnService(localStorageService, $q, $http, $log) {
@@ -76,16 +76,16 @@
       addTokenToHttp(token);
     }
 
-    function storeToken( token ) {
+    function storeToken(token) {
       localStorageService.set('AuthToken', token);
       $log.debug("Token stored in local storage");
     }
-    
+
     function loadToken() {
-       return localStorageService.get('AuthToken');
+      return localStorageService.get('AuthToken');
     }
 
-    function addTokenToHttp( token ) {
+    function addTokenToHttp(token) {
       $http.defaults.headers.common.Authorization = "Bearer: ".concat(token);
       $log.debug("Token attached to $http");
     }

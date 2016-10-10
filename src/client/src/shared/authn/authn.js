@@ -14,11 +14,11 @@
   /*
   ** Configure local storage to store the authn token between sessions
   */
-  angular.module('ha-remote.authn').config(['localStorageServiceProvider', function(localStorageServiceProvider ) {
-  localStorageServiceProvider
-    .setPrefix('HARemote')
-    .setStorageType('localStorage')
-    .setNotify(true, true)
+  angular.module('ha-remote.authn').config(['localStorageServiceProvider', function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('HARemote')
+      .setStorageType('localStorage')
+      .setNotify(true, true)
   }]);
 
 

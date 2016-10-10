@@ -9,40 +9,40 @@
 
     // Promise-based API
     return {
-      powerOn: function ( id ) {
+      powerOn: function (id) {
 
         return $http.post('/api/controls/' + id + '/poweron')
-        .then(function (res) {
-          $log.debug("Called powerOn API for control id:" + id);
-          return res.data;
-        }, function (res) {
-          $log.info("Call to " + res.config.url + " failed with status " + res.status);
-          return $q.reject(res.data)
-        })
+          .then(function (res) {
+            $log.debug("Called powerOn API for control id:" + id);
+            return res.data;
+          }, function (res) {
+            $log.info("Call to " + res.config.url + " failed with status " + res.status);
+            return $q.reject(res.data)
+          })
       },
 
-      powerOff: function ( id ) {
+      powerOff: function (id) {
 
         return $http.post('/api/controls/' + id + '/poweroff')
-        .then(function (res) {
-          $log.debug("Called powerOff API for control id:" + id);
-          return res.data;
-        }, function (res) {
-          $log.info("Call to " + res.config.url + " failed with status " + res.status);
-          return $q.reject(res.data)
-        })
+          .then(function (res) {
+            $log.debug("Called powerOff API for control id:" + id);
+            return res.data;
+          }, function (res) {
+            $log.info("Call to " + res.config.url + " failed with status " + res.status);
+            return $q.reject(res.data)
+          })
       },
 
-      getState: function ( id ) {
+      getState: function (id) {
 
         return $http.get('/api/controls/' + id)
-        .then(function (res) {
-          $log.debug("Called getState API for control id:" + id);
-          return res.data;
-        }, function (res) {
-          $log.info("Call to " + res.config.url + " failed with status " + res.status);
-          return $q.reject(res.data)
-        })
+          .then(function (res) {
+            $log.debug("Called getState API for control id:" + id);
+            return res.data;
+          }, function (res) {
+            $log.info("Call to " + res.config.url + " failed with status " + res.status);
+            return $q.reject(res.data)
+          })
       }
     };
   }

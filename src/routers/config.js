@@ -9,11 +9,11 @@ var router = express.Router();
 
 router.route('/config')
 
-    //
-    // Get the configuration 
+  //
+  // Get the configuration
 
-    .get(function (req, res) {
-        res.json(config.clientConfig());
-    });
+  .get(function (req, res) {
+    res.json(config.clientConfig());
+  });
 
 module.exports = router;
