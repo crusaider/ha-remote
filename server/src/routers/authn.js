@@ -1,12 +1,13 @@
 'use strict';
 
+var env = require('../environment')
 var logger = require('../utils/logger');
 var express = require('express');
 var Hashes = require('jshashes');
 
 
-var password = process.env.PASSWORD || "";
-var tokenSalt = process.env.TOKEN_SALT;
+var password = env.password;
+var tokenSalt = env.tokenSalt;
 
 module.exports.hasPassword = function () {
   if (password) {

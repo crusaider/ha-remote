@@ -1,14 +1,15 @@
 'use strict';
 
 var request = require('request');
-
 var logger = require('./utils/logger');
+var env = require('./environment');
+
 
 /**
  * Runtime settings from the environment
  */
-var haURL = process.env.HA_URL || "http://localhost:8123";
-var haPassword = process.env.HA_PASSWORD || "";
+var haURL = env.haURL;
+var haPassword = env.haPassword;
 
 
 module.exports = {

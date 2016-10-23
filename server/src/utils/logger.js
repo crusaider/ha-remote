@@ -5,7 +5,7 @@
 //
 'use strict';
 
-var logLevel = process.env.LOGLEVEL || 'info';
+var logLevel = require('../environment').logLevel;
 
 var dateFormat = require('dateformat');
 

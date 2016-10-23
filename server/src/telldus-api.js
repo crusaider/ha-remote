@@ -48,16 +48,16 @@ constants.SUPPORTED_METHODS = Object.keys(constants.COMMANDS)
 var logger = require('./utils/logger');
 var querystring = require('querystring');
 var telldus = require('telldus-live-promise');
-
+var env = require('./environment');
 
 /**
  * Get telldus API secrets from the environment.
  */
 var config = {
-  telldusPublicKey: process.env.TELLDUS_PUBLIC_KEY,
-  telldusPrivateKey: process.env.TELLDUS_PRIVATE_KEY,
-  telldusToken: process.env.TELLDUS_TOKEN,
-  telldusTokenSecret: process.env.TELLDUS_TOKEN_SECRET
+  telldusPublicKey: env.telldusPublicKey,
+  telldusPrivateKey: env.telldusPrivateKey,
+  telldusToken: env.telldusToken,
+  telldusTokenSecret: env.telldusTokenSecret
 };
 
 /**
