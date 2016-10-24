@@ -15,7 +15,6 @@ logger.info("============================================================");
 logger.info("Runtime configuration");
 logger.info("LogLevel: %s", logger.logLevel);
 logger.info("NODE_ENV: %s", process.env.NODE_ENV);
-logger.info("HTTP(S) port: %s", env.port);
 logger.info("Control configuration file: %s", config.configFileName);
 logger.info("HA Server: %s", ha.url);
 logger.info("HA Password: %s", ha.password);
@@ -35,7 +34,6 @@ var express = require('express');        // call express
 var app = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var fs = require('fs');
-var https = require('https');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -92,12 +90,19 @@ app.use(function (req, res, next) {
 
 // START THE HTTP(S) SERVER
 // =============================================================================
-var server = https.createServer({
-    key: fs.readFileSync('./src/ssl/key.pem'),
-    cert: fs.readFileSync('./src/ssl/cert.pem')
-}, app).listen(env.port);
+var server;
 
-logger.info('Web Server listening over SSL on ' + env.port);
+if ( env.ssl === 'YES' ) {
+    server = require('https').createServer({
+        key: fs.readFileSync('./src/ssl/key.pem'),
+        cert: fs.readFileSync('./src/ssl/cert.pem')
+    }, app).listen(env.port);
+
+    logger.info('Web Server listening over SSL on ' + env.port);
+} else {
+    server = require('http').createServer(app).listen(env.port);
+    logger.info('Web Server listening on ' + env.port);
+}
 
 // 
 // SHUTDOWN THE APPLICATION WHEN ASKED TO

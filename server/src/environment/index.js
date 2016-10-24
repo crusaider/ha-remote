@@ -15,6 +15,8 @@ var defaults = {
     
     port: process.env.PORT || 8080,
     
+    ssl: process.env.SSL || 'YES',
+    
     // URL To the home assistant API server to use
     haURL: process.env.HA_URL,
     
