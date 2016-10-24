@@ -2,12 +2,11 @@
 'use strict';
 
 var logger = require('./utils/logger');
+var env = require('./environment');
 var config = require('./utils/config');
 var ha = require('./ha-api');
 var telldus = require('./telldus-api');
 var authn = require('./routers/authn');
-
-var port = process.env.PORT || 8080;
 
 //
 // SHOW WHAT RUNTIME PARAMETERS WE ARE USING
@@ -16,7 +15,7 @@ logger.info("============================================================");
 logger.info("Runtime configuration");
 logger.info("LogLevel: %s", logger.logLevel);
 logger.info("NODE_ENV: %s", process.env.NODE_ENV);
-logger.info("HTTP(S) port: %s", port);
+logger.info("HTTP(S) port: %s", env.port);
 logger.info("Control configuration file: %s", config.configFileName);
 logger.info("HA Server: %s", ha.url);
 logger.info("HA Password: %s", ha.password);
@@ -96,9 +95,9 @@ app.use(function (req, res, next) {
 var server = https.createServer({
     key: fs.readFileSync('./src/ssl/key.pem'),
     cert: fs.readFileSync('./src/ssl/cert.pem')
-}, app).listen(port);
+}, app).listen(env.port);
 
-logger.info('Web Server listening over SSL on ' + port);
+logger.info('Web Server listening over SSL on ' + env.port);
 
 // 
 // SHUTDOWN THE APPLICATION WHEN ASKED TO
