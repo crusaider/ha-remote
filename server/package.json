@@ -1,0 +1,39 @@
+{
+  "name": "ha-remote",
+  "private": true,
+  "version": "0.3.1",
+  "description": "A simplified GUI for Home Assistant making is possible to choose a subset of devices managed by a Home Assistant installation and make them visible in a separate GUI from home assistant.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "ha-sim": "node ha-sim/src/server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/crusaider/ha-remote/issues",
+    "email": "jonas.m.andreasson@gmail.com"
+  },
+  "author": "Jonas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crusaider/ha-remote"
+  },
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "dateformat": "^1.0.12",
+    "express": "^4.14.0",
+    "jshashes": "^1.0.5",
+    "jsmin": "^1.0.1",
+    "lodash": "^4.16.4",
+    "morgan": "^1.7.0",
+    "request": "^2.72.0",
+    "telldus-live-promise": "^1.0.3",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1",
+    "sinon": "^1.17.4"
+  }
+}

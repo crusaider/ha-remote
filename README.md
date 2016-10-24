@@ -1,5 +1,5 @@
 # HA Remote
-A simplified GUI for Home Assistant and Telldus Live making is possible to choose a subset of devices managed by a Home Assistant installation and/or Telldus Live and make them visible in a separate GUI from home assistant.
+A simplified GUI for Home Assistant and Telldus Live making is possible to choose a subset of devices managed by a Home Assistant installation and/or Telldus Live and make them visible in a separate GUI.
 
 The main idea behind the project has been to make it easier to "sell" home automation to not to technical family members. This is supposed to be achieved by mimicing physical controls but still making them available in a mobile device.
 
@@ -11,7 +11,20 @@ The main idea behind the project has been to make it easier to "sell" home autom
 
 ## Installation
 
-Clone the repo to a location on your machine, from the root directory of the repo issue the `$ npm install --production` command.
+Clone the repo to a location on your machine, from the root directory of the repo issue the following commands:
+
+You will have to have the `grunt-cli` module installed globally, if you don't start with:
+	
+	$ npm install -g grunt-cli
+
+Then run the follwing commands to install and build the app:
+
+	$ cd client
+	$ bower install
+	$ npm install
+	$ grunt build
+	$ cd ../server
+	$ npm install --production
 
 ## Device Configuration
 
@@ -19,27 +32,27 @@ Devices that should be possible to switch on and off from the application has to
 
 ### Controls
 
-A sample configuration file: 
-
+A sample configuration file:
+ 
 	{
-    "controls": [
-        {
-            "backend": "ha"
-            "caption": "Vardagsrum",
-            "device_id": "group.vardagsrum",
-            "service": {
-                "domain": "switch",
-                "onService": "turn_on",
-                "offService": "turn_off"
-            }
-        },
-        {
-            "backend": "telldus",
-            "caption": "Garagebänk",
-            "device_id": "1268183"
-        },
-    ]
-}
+	    "controls": [
+	        {
+	            "backend": "ha"
+	            "caption": "Vardagsrum",
+	            "device_id": "group.vardagsrum",
+	            "service": {
+	                "domain": "switch",
+	                "onService": "turn_on",
+	                "offService": "turn_off"
+	            }
+	        },
+	        {
+	            "backend": "telldus",
+	            "caption": "Garagebänk",
+	            "device_id": "1268183"
+	        },
+	    ]
+	}
 
 Each device that should be possible to control needs to be listed in the file as part of the array named `"controls"`.
 
@@ -49,7 +62,7 @@ Each device that should be possible to control needs to be listed in the file as
 
 The `"service"` object, only relevant for a Home Assitant devices, defines how the device can be switched on and off trough the Home Assistant REST API Endpoint `/api/services` please refer to the [Home Assistant API documentation](https://home-assistant.io/developers/rest_api/#post-apiservicesltdomainltservice).
 
-The repo contains a sample configuration file at `src/configuration.json`.
+The repo contains a sample configuration file at `server/src/configuration.json`.
 
 ## Server Runtime Configuration
 The application is configured trough a number of environment variables that can be set before the server is started.
@@ -58,6 +71,7 @@ The application is configured trough a number of environment variables that can 
 |:---------|:--------------|:--------|
 |`LOGLEVEL`|`info`|Granulairity of server side log messages, has to be one of `debug`, `info`, `warn` or `error`.|
 |`PORT`| `8080`|HTTP Ports the server will listen on|
+|`SSL`|`YES`|Decides if the server it to be running HTTPS, any other valye then `YES` will disable TLS and serve using plain text HTTP.
 |`CONFIGFILE`|`./src/configuration.json`|The file in where to read information about the controls to render to the user and how to associate them to devices in Home Assistant.|
 |`PASSWORD`|Empty string|The password users has to supply in the web GUI to login to the application.|
 |`TOKEN_SALT`|None - has to be set, if not the server will not start.|A salt used to generate the authentication token as part of the login and authorization. Any random string will do, the longer the better. Can for example be generated using openssl: `$ openssl rand -base64 64`|
@@ -69,20 +83,19 @@ The application is configured trough a number of environment variables that can 
 |`TELLDUS_TOKEN_SECRET`|Undefined|Telldus user token secret.|
 
 ### Telldus API keys
-To be able to integration with telldus live you will have to supply four different values in the enviroment, the API keys and user tokens can be generated on the [Telldus Live API website](http://api.telldus.com/keys/index).
+To be able to integrate with telldus live you will have to supply four different values in the enviroment, the API keys and user tokens can be generated on the [Telldus Live API website](http://api.telldus.com/keys/index).
 
+## SSL/TLS
 
-## SSL
-
-The repo contains a set of SLL files that is self signed. To use another certificate replace the files in `src/sll`.
+The repo contains a set of SSL files that is self signed. To use another certificate replace the files in `server/src/sll`.
 
 # Starting the server
 
-In the root directory of the repo run the comand `$ npm start`. This will start the server and start logging to `STDOUT`. *(Please note that the server will not start if it does not find the environment varaible `TOKEN_SALT`)*.
+In the `server` directory of the repo run the comand `$ npm start`. This will start the server and start logging to `STDOUT`. *(Please note that the server will not start if it does not find the environment varaible `TOKEN_SALT`)*.
 
 # Running the app
 
-If no chnages to the default runtime configuration has been made the application is now being serverd on port 8080 of the host where it was started. Point your browser to `https://localhost:8080' (asuming you run it locally). If you are running with the supplied SSL certificate you will have to accept them as untrusted in your browser. You should now be presented with the login screen. If no password has been set, the application will accept an empty password for login.
+If no chnages to the default runtime configuration has been made the application is now being served on port 8080 of the host where it was started. Point your browser to `https://localhost:8080' (asuming you run it locally). If you are running with the supplied SSL certificate you will have to accept them as untrusted in your browser. You should now be presented with the login screen. If no password has been set, the application will accept an empty password for login.
 
 # Development
 
@@ -103,13 +116,13 @@ The application is configured trough a number of environment variables that can 
 
 ## Starting the Simulator
 
-In root of the repository issue `$ npm start ha-sim`. It will start the simulation server in a separate process and start logging it's activity to `STDOUT`.
+<del>In root of the repository issue `$ npm start ha-sim`. It will start the simulation server in a separate process and start logging it's activity to `STDOUT`.</del>
 
 ## TODO
 
 **TODO:** It would be neat to be able to add and remove devices from the GUI.
 
-**TODO:** The client app is in no way optimized, there is lots to do such as minification, making sprites of SVG:s etc.
+**TODO:** Merge client and server code into one common structure and package.
 
 **TODO:** Security - even if the current solution probably is good enough for this kind of app it could be improved and would need a second pair of eyes (that know that kind of stuff) to have a look.
 

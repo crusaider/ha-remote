@@ -7,3 +7,7 @@ tmp
 .idea
 /.vscode/
 /ha-sim/.vscode/
+/fullstack/nbproject/private/
+/nbproject/private/
+/server/nbproject/private/
+/client/nbproject/private/
