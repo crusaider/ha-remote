@@ -47,8 +47,12 @@ app.use(bodyParser.json());
 app.use(require('./utils/request-logger'));
 
 // Serve client code as static assets
-app.use(express.static('./src/client'));
-app.use('/node_modules', express.static('./node_modules'));
+if ( process.env.NODE_ENV === 'development') {
+    app.use(express.static('../client/app'));
+    app.use('/bower_components', express.static('../client/bower_components'));
+} else {
+    app.use(express.static('../client/dist'));
+}
 
 
 //
