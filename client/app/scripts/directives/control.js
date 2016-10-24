@@ -12,7 +12,7 @@
     .directive('controlWidget', [function () {
 
       return {
-        templateUrl: 'src/panel/views/control.html',
+        templateUrl: 'views/control.html',
         restrict: 'AE',
 
         scope: {

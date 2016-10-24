@@ -11,6 +11,7 @@
 
 
 (function () {
+    'use strict';
   angular.module("window-events", [])
     .directive(
     "bnWindowBlur",

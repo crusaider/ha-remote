@@ -11,7 +11,7 @@
     .directive('aboutWidget', [function () {
 
       return {
-        templateUrl: 'src/about/views/about.html',
+        templateUrl: 'views/about.html',
         restrict: 'E'
       };
 

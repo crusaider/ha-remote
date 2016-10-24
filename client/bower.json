@@ -5,11 +5,14 @@
     "angular": "^1.4.0",
     "angular-animate": "^1.4.0",
     "angular-aria": "^1.4.0",
-    "angular-messages": "^1.4.0"
+    "angular-messages": "^1.4.0",
+    "angular-material": "^1.1.1",
+    "angular-translate": "^2.12.1",
+    "angular-local-storage": "^0.5.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
   },
   "appPath": "app",
-  "moduleName": "clientApp"
+  "moduleName": "ha-remote"
 }

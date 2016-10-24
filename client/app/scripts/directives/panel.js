@@ -12,7 +12,7 @@
     .directive('panelWidget', [function () {
 
       return {
-        templateUrl: 'src/panel/views/panel.html',
+        templateUrl: 'views/panel.html',
         restrict: 'AE'
       };
 

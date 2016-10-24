@@ -308,6 +308,11 @@ module.exports = function (grunt) {
     },
 
     svgmin: {
+      options: {
+          plugins: [
+              { cleanupIDs: false }
+          ]
+      },
       dist: {
         files: [{
           expand: true,
@@ -338,7 +343,7 @@ module.exports = function (grunt) {
     ngtemplates: {
       dist: {
         options: {
-          module: 'clientApp',
+          module: 'ha-remote',
           htmlmin: '<%= htmlmin.dist.options %>',
           usemin: 'scripts/scripts.js'
         },
