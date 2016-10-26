@@ -54,6 +54,6 @@ try {
 
 module.exports = _.merge(
   defaults,
-  local,
-  require(`./${process.env.NODE_ENV}.js`) || {});
+  require(`./${process.env.NODE_ENV}.js`) || {},
+  local);
 
