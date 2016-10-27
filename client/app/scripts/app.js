@@ -2,6 +2,7 @@
   'use strict';
   angular.module('ha-remote', [
     'ngMaterial',
+    'ngRoute',
     'ha-remote.panel',
     'ha-remote.translations',
     'ha-remote.authn',
@@ -12,7 +13,8 @@
    * Configure theme and icons
    */
 
-  angular.module('ha-remote').config(function ($mdThemingProvider, $mdIconProvider) {
+  angular.module('ha-remote').config(
+          function ($mdThemingProvider, $mdIconProvider, $routeProvider) {
 
     $mdIconProvider
       .defaultIconSet('./images/svg/mdi.svg')
@@ -25,6 +27,24 @@
       .primaryPalette('blue')
       .accentPalette('red');
 
+    $routeProvider
+        .when('/login', {
+            templateUrl: 'views/login.html',
+            controller: 'LoginController',
+            controllerAs: 'ctrl'
+        })
+        .when( '/about', {
+            templateUrl: 'views/about.html',
+            controller: 'AboutController'  
+        })
+        .when('/panel', {
+            templateUrl: 'views/panel.html',
+            controller: 'PanelController',
+            controllerAs: 'ctrl'
+        })
+            .otherwise({
+                redirectTo: '/panel'
+        });
   });
 
 })();

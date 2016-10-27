@@ -16,23 +16,23 @@
       '$log',
       '$translate',
       '$scope',
+      '$location',
       AppController
     ]);
 
-  function AppController(authnService, $mdSidenav, $log, $translate, $scope) {
+  function AppController(authnService, $mdSidenav, $log, $translate, $scope, $location) {
     var self = this;
 
     if (authnService.isAuthenticated()) {
       self.selected = 'panel';
+      select('panel');
     } else {
       self.selected = 'login';
+      select('login');
     }
     self.toggleMenu = toggleMenu;
     self.select = select;
-    self.password = '';
-    self.submitPassword = submitPassword;
-    self.loginDisabled = false;
-    self.loginFailed = false;
+
 
     /**
      * Listen for authnFailed events to force a logon
@@ -40,6 +40,17 @@
     $scope.$on('authnFailed', function () {
       $log.debug("Received authnFailed event");
       self.selected = 'login';
+    });
+    
+    /**
+     * Listen to authn suceess events to navigate to
+     * the panel.
+     * 
+     */
+    $scope.$on('authenSuceeded', function() {
+      $log.debug("Received authenSuceeded event");
+      self.selected = 'panel';
+      self.select('panel');
     });
 
     // *********************************
@@ -61,33 +72,11 @@
       if (selection == 'logout') {
         authnService.logout();
         self.selected = 'login';
+        $location.path('/'.concat('login'));
       } else {
+        $location.path('/'.concat(selection));
         self.selected = selection;
       }
-    }
-
-    /**
-     * Handle login when password submitted
-     */
-    function submitPassword() {
-      $log.debug("Password submitted: %s", self.password);
-      self.loginDisabled = true;
-      self.loginDisabled = false;
-
-      authnService.login(self.password)
-        .then(function () {
-          $log.debug("Sucessfull login");
-          self.password = "";
-          self.loginDisabled = false;
-          self.loginFailed = false;
-          self.select('panel');
-        }, function (error) {
-          $log.debug("Login failed");
-          self.password = "";
-          self.loginFailed = true;
-          self.loginDisabled = false;
-        });
-
     }
 
   }
