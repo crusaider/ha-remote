@@ -9,11 +9,11 @@
   'use strict';
 
   angular.module('ha-remote.authn')
-    .service('authnService', ['localStorageService', '$q', '$http', '$log',
+    .service('authnService', ['localStorageService', '$q', '$http', '$log', '$rootScope',
       AuthnService]);
 
 
-  function AuthnService(localStorageService, $q, $http, $log) {
+  function AuthnService(localStorageService, $q, $http, $log, $rootScope) {
 
 
     // Promise-based API
@@ -34,6 +34,8 @@
           .then(function (res) {
             $log.debug("Sucessfully logged in");
             setToken(res.data.token);
+            $rootScope.$broadcast('authenSuceeded');
+            $log.debug("Broadcasted authenSuceeded event");
             return;
           }, function (res) {
             if (res.status == 401) {

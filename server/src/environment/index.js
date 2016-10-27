@@ -11,7 +11,7 @@ var defaults = {
     logLevel: process.env.LOGLEVEL || 'info',
     
     // File with configuration data
-    configFile: process.env.LOGLEVEL || './src/configuration.json',
+    configFile: process.env.CONFIGFILE || './src/configuration.json',
     
     port: process.env.PORT || 8080,
     
@@ -33,7 +33,7 @@ var defaults = {
     telldusPublicKey: process.env.TELLDUS_PUBLIC_KEY,
     telldusPrivateKey: process.env.TELLDUS_PRIVATE_KEY,
     telldusToken: process.env.TELLDUS_TOKEN,
-    telldusTokebSecret: process.env.TELLDUS_TOKEN_SECRET,
+    telldusTokenSecret: process.env.TELLDUS_TOKEN_SECRET,
 
 }
 
@@ -54,6 +54,6 @@ try {
 
 module.exports = _.merge(
   defaults,
-  local,
-  require(`./${process.env.NODE_ENV}.js`) || {});
+  require(`./${process.env.NODE_ENV}.js`) || {},
+  local);
 
