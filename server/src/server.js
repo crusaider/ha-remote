@@ -35,6 +35,10 @@ var app = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
+
+// Compress response content
+app.use(require('compression')());
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({extended: true}));
@@ -48,7 +52,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(express.static('../client/app'));
     app.use('/bower_components', express.static('../client/bower_components'));
 } else {
-    app.use(express.static('./client'));
+    app.use(express.static('./client', {maxAge: '365d' }));
 }
 
 
@@ -69,7 +73,7 @@ app.use('/api', authn.router);
 app.use('/api', require('./routers/config'));
 app.use('/api', require('./routers/controls'));
 
-// Handle page/route not found (404) 
+// Handle page/route not found (404)
 // =============================================================================
 app.use(function (req, res, next) {
     res.status(404);
@@ -106,7 +110,7 @@ if ( env.ssl === 'YES' ) {
     logger.info('Web Server listening on ' + env.port);
 }
 
-// 
+//
 // SHUTDOWN THE APPLICATION WHEN ASKED TO
 // =============================================================================
 
