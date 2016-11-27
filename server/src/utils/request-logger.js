@@ -12,7 +12,7 @@ var logger = require('./logger');
 
 module.exports = function (req, res, next) {
   next();
-  logger.verbose("HTTP-ACCESS: %s %s : %s [%s]",
+  logger.verbose('HTTP-ACCESS: %s %s : %s [%s]',
     req.method, req.path, res.statusCode,
     req.headers['user-agent']);
-}
+};

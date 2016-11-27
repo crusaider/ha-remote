@@ -5,5 +5,5 @@
  */
 
 module.exports = {
-    logLevel: 'debug',
-}
+  logLevel: 'debug'
+};

@@ -2,58 +2,28 @@
   "controls": [
     {
       "backend": "telldus",
+      "caption": "Lampor Plan 1",
+      "device_id": "1283624"
+    },
+    {
+      "backend": "telldus",
+      "caption": "Lampor Plan 2",
+      "device_id": "1283628"
+    },
+    {
+      "backend": "telldus",
       "caption": "Garagebänk",
       "device_id": "1268183"
     },
     {
-      "backend": "ha",
-      "caption": "Vardagsrum",
-      "device_id": "group.vardagsrum",
-      "service": {
-        "domain": "switch",
-        "onService": "turn_on",
-        "offService": "turn_off"
-      }
-    },
-    {
-      "backend": "ha",
-      "caption": "Kontor",
-      "device_id": "group.kontor",
-      "service": {
-        "domain": "switch",
-        "onService": "turn_on",
-        "offService": "turn_off"
-      }
-    },
-    {
-      "backend": "ha",
-      "caption": "Allrum",
-      "device_id": "group.allrum",
-      "service": {
-        "domain": "switch",
-        "onService": "turn_on",
-        "offService": "turn_off"
-      }
-    },
-    {
-      "backend": "ha",
-      "caption": "Sovrum & Gästrum",
-      "device_id": "group.sovrum__gstrum",
-      "service": {
-        "domain": "switch",
-        "onService": "turn_on",
-        "offService": "turn_off"
-      }
-    },
-    {
-      "backend": "ha",
+      "backend": "telldus",
       "caption": "Parkering",
-      "device_id": "switch.strlkastare_parkering",
-      "service": {
-        "domain": "switch",
-        "onService": "turn_on",
-        "offService": "turn_off"
-      }
+      "device_id": "1267076"
+    },
+    {
+      "backend": "telldus",
+      "caption": "Trädgård",
+      "device_id": "1282078"
     }
   ]
 }

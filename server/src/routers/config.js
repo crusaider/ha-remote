@@ -1,11 +1,9 @@
 'use strict';
 
-var logger = require('../utils/logger');
 var config = require('../utils/config');
 var express = require('express');
 
-
-var router = express.Router();
+var router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/config')
 

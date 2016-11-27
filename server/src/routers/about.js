@@ -4,17 +4,14 @@ var express = require('express');
 var fs = require('fs');
 var logger = require('../utils/logger');
 
-
-
-var router = express.Router();
+var router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
 
-  //
-  // Get the configuration s
+//
+// Get the configuration s
 
   .get(function (req, res) {
-
     var aboutInfo = {
       copyrightYear: 2016,
       copyrightHolders: 'Jonas Andreasson',
@@ -35,7 +32,10 @@ function readDepencyInfos(packageDir) {
   var packageInfos = [];
 
   for (var packageName in packageJson.dependencies) {
-    packageInfos.push(readPackageInfo(packageDir.concat('/node_modules/').concat(packageName).concat('/package.json')));
+    if ({}.hasOwnProperty.call(packageJson.dependencies, packageName)) {
+      packageInfos.push(readPackageInfo(packageDir.concat('/node_modules/')
+        .concat(packageName).concat('/package.json')));
+    }
   }
 
   return packageInfos;
@@ -43,7 +43,7 @@ function readDepencyInfos(packageDir) {
 
 function readPackageInfo(filename) {
   var packageInfo = loadPackageJson(filename);
-  return { name: packageInfo.name, version: packageInfo.version };
+  return {name: packageInfo.name, version: packageInfo.version};
 }
 
 function loadPackageJson(filename) {
@@ -51,9 +51,9 @@ function loadPackageJson(filename) {
 
   try {
     packageInfo = JSON.parse(fs.readFileSync(filename, 'utf8'));
-    logger.debug("Loading package info from [%s]", fs.realpathSync(filename));
+    logger.debug('Loading package info from [%s]', fs.realpathSync(filename));
   } catch (err) {
-    logger.error("Failed to load package info from file [%s]", filename);
+    logger.error('Failed to load package info from file [%s]', filename);
     logger.error(err);
     throw (err);
   }
