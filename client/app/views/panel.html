@@ -1,5 +1,5 @@
 <div bn-window-focus="ctrl.onWindowFocus()">
-  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.showProgress"></md-progress-linear>
+  <md-progress-linear md-mode="indeterminate" ng-disabled="!ctrl.showProgress"></md-progress-linear>
   <md-card ng-show="ctrl.showControls">
     <md-card-content>
       <div ng-repeat-start="c in ctrl.controls">
