@@ -1,7 +1,7 @@
 {
   "groups": [
     {
-      "caption": "Grupp 1",
+      "caption": "Group 1",
       "controls": [
         {
           "backend": "telldus",
@@ -12,7 +12,12 @@
           "backend": "telldus",
           "caption": "Lampor Plan 2",
           "device_id": "1283628"
-        },
+        }
+      ]
+    },
+    {
+      "caption": "Group 2",
+      "controls": [
         {
           "backend": "telldus",
           "caption": "Garagebänk",

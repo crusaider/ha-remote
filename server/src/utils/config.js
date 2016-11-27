@@ -1,43 +1,43 @@
 'use strict';
 
+const sid = require('shortid');
 const fs = require('fs');
 const jsmin = require('jsmin');
 
 const logger = require('./logger');
 
 /**
- * Exported
- */
-
-module.exports = {
-  clientConfig: function () {
-    var retVal = [];
-    getConfigData().controls.forEach(function (control) {
-      retVal.push({id: retVal.length, caption: control.caption});
-    });
-
-    return retVal;
-  },
-
-  controlDescription: function (id) {
-    return getConfigData().controls[id];
-  },
-
-  configFileName: process.env.CONFIGFILE || './src/configuration.json'
-};
-
-/**
  * Private
  */
 
-let configData;
+let clientConfig;
+let controls = new Map();
 
 function getConfigData() {
-  if (configData) {
-    return configData;
+  if (clientConfig) {
+    return clientConfig;
   }
+
+  clientConfig = {groups: []};
+
+  for (let g of loadFromFile().groups) {
+    let cg = {caption: g.caption, id: sid.generate(), controls: []};
+    for (let c of g.controls) {
+      let cid = sid.generate();
+      let cc = {caption: c.caption, id: cid};
+      cg.controls.push(cc);
+      controls.set(cid, c);
+    }
+    clientConfig.groups.push(cg);
+  }
+
+  return clientConfig;
+}
+
+function loadFromFile() {
+  let data;
   try {
-    configData = JSON.parse(jsmin.jsmin(fs.readFileSync(
+    data = JSON.parse(jsmin.jsmin(fs.readFileSync(
       module.exports.configFileName, 'utf8')));
     logger.info('Loading controller configuration from [%s]',
       fs.realpathSync(module.exports.configFileName));
@@ -47,5 +47,22 @@ function getConfigData() {
     logger.error(err);
     throw (err);
   }
-  return configData;
+  return data;
 }
+
+/**
+ * Exported
+ */
+
+module.exports = {
+  clientConfig: function () {
+    return getConfigData();
+  },
+
+  controlDescription: function (id) {
+    return controls.get(id);
+  },
+
+  configFileName: process.env.CONFIGFILE || './src/configuration.json'
+};
+
