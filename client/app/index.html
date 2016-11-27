@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ha-remote">
+
+<head>
+  <title translate="TITLE"></title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <!-- Safari on iOS specifics -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" href="assets/png/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="images/png/apple-touch-icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="images/png/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="images/png/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="images/png/apple-touch-icon-76x76.png">
+
+  <!-- Android/Chrome manifest -->
+  <link rel="manifest" href="scripts/manifest.json">
+
+  <link rel="icon" type="image/png" href="images/png/apple-touch-icon-76x76.png" />
+  
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+ 
+  <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  
+  
+  
+  <style type="text/css">
+    /**
+     * Hide when Angular is not yet loaded and initialized
+     **/
+    
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak {
+      display: none !important;
+    }
+  </style>
+
+</head>
+
+<body layout="column" ng-controller="AppController as ctrl" ng-cloak>
+  <md-toolbar layout="row">
+    <md-button class="menu" hide-gt-sm ng-click="ctrl.toggleMenu()" aria-label="Show Menu">
+      <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+  </md-toolbar>
+
+  <section flex layout="row">
+
+    <!-- Menu -->
+
+    <md-sidenav id="sidenav" ng-click="ctrl.toggleMenu()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
+
+      <md-content layout-padding>
+        <h1 class="md-md-title" translate="HEADLINE"></h1>
+      </md-content>
+
+      <md-divider ng-show="ctrl.selected != 'login'"></md-divider>
+
+      <md-content layout-padding ng-show="ctrl.selected != 'login'">
+        <md-list>
+          <md-list-item>
+            <md-icon md-svg-icon="remote"></md-icon>
+            <md-button translate="MENU_PANEL" ng-click="ctrl.select('panel')" ng-class="{ 'md-warn' : ctrl.selected == 'panel'}" class="md-primary menu-item-button"
+              aria-label="Show control panel">
+            </md-button>
+          </md-list-item>
+        </md-list>
+      </md-content>
+
+      <md-divider></md-divider>
+
+      <md-content layout-padding>
+        <md-list>
+          <md-list-item ng-show="ctrl.selected != 'login'">
+            <md-icon md-svg-icon="information-outline"></md-icon>
+            <md-button translate="MENU_ABOUT" ng-click="ctrl.select('about')" ng-class="{ 'md-warn' : ctrl.selected == 'about'}" class="md-primary menu-item-button"
+              aria-label="Show information about the app">
+            </md-button>
+          </md-list-item>
+          <md-list-item ng-show="ctrl.selected != 'login'">
+            <md-icon md-svg-icon="logout"></md-icon>
+            <md-button translate="MENU_LOGOUT" ng-click="ctrl.select('logout')" ng-class="{ 'md-warn' : ctrl.selected == 'login'}" class="md-primary menu-item-button"
+              aria-label="Log out">
+            </md-button>
+          </md-list-item>
+          <md-list-item ng-show="ctrl.selected == 'login'">
+            <md-icon md-svg-icon="login"></md-icon>
+            <md-button translate="MENU_LOGIN" ng-click="ctrl.select('login')" ng-class="{ 'md-warn' : ctrl.selected == 'login'}" class="md-primary menu-item-button"
+              aria-label="Log out">
+            </md-button>
+          </md-list-item>
+        </md-list>
+        <md-content>
+
+    </md-sidenav>
+
+    <md-content flex id="content" layout="column">
+        <ng-view></ng-view>
+    </md-content>
+  </section>
+
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/panel.js"></script>
+    <script src="scripts/about.js"></script>
+    <script src="scripts/translations.js"></script>
+    <script src="scripts/controllers/app.js"></script>
+    <script src="scripts/directives/window-events.js"></script>
+    <script src="scripts/services/authn/authn.js"></script>
+    <script src="scripts/services/authn/401interceptor.js"></script>
+    <script src="scripts/services/authn/authnservice.js"></script>
+    <script src="scripts/services/about.js"></script>
+    <script src="scripts/directives/about.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/directives/control.js"></script>
+    <script src="scripts/controllers/control.js"></script>
+    <script src="scripts/directives/panel.js"></script>
+    <script src="scripts/controllers/panel.js"></script>
+    <script src="scripts/services/powercontrol.js"></script>
+    <script src="scripts/services/config.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <!-- endbuild -->
+</body>
+</html>

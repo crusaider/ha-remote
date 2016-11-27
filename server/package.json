@@ -1,0 +1,56 @@
+{
+  "name": "ha-remote-server",
+  "version": "0.3.1",
+  "private": true,
+  "description": "ha-remote server component",
+  "homepage": "",
+  "author": {
+    "name": "Jonas Andreasson",
+    "email": "jonas.m.andreasson@gmail.com",
+    "url": "https://twitter.com/Crusaider"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "keywords": [
+    ""
+  ],
+  "devDependencies": {
+    "eslint": "^3.1.1",
+    "eslint-config-xo-space": "^0.15.0",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-line-ending-corrector": "^1.0.1",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-mocha": "^3.0.1",
+    "gulp-plumber": "^1.0.0",
+    "gulp-nsp": "^2.1.0"
+  },
+  "eslintConfig": {
+    "extends": "xo-space",
+    "env": {
+      "mocha": true
+    }
+  },
+  "repository": "git@github.com:crusaider/ha-remote.git",
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "compression": "^1.6.2",
+    "dateformat": "^1.0.12",
+    "express": "^4.14.0",
+    "jshashes": "^1.0.5",
+    "jsmin": "^1.0.1",
+    "lodash": "^4.16.4",
+    "morgan": "^1.7.0",
+    "request": "^2.72.0",
+    "telldus-live-promise": "^1.0.3",
+    "winston": "^2.2.0"
+  }
+}
