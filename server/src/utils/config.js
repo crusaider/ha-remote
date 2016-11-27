@@ -1,9 +1,9 @@
 'use strict';
 
-var fs = require('fs');
-var jsmin = require('jsmin');
+const fs = require('fs');
+const jsmin = require('jsmin');
 
-var logger = require('./logger');
+const logger = require('./logger');
 
 /**
  * Exported
@@ -30,7 +30,7 @@ module.exports = {
  * Private
  */
 
-var configData;
+let configData;
 
 function getConfigData() {
   if (configData) {
