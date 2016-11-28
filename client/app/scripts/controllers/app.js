@@ -1,6 +1,6 @@
 /**
- * Top Level controller for the app. 
- * 
+ * Top Level controller for the app.
+ *
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT
  */
@@ -11,6 +11,7 @@
     .module('ha-remote')
     .controller('AppController',
     [
+      'configService',
       'authnService',
       '$mdSidenav',
       '$log',
@@ -20,8 +21,10 @@
       AppController
     ]);
 
-  function AppController(authnService, $mdSidenav, $log, $translate, $scope, $location) {
+  function AppController(configService, authnService, $mdSidenav, $log, $translate, $scope, $location) {
     var self = this;
+
+
 
     if (authnService.isAuthenticated()) {
       self.selected = 'panel';
@@ -32,7 +35,22 @@
     }
     self.toggleMenu = toggleMenu;
     self.select = select;
+    self.groups = [];
 
+    // Load controls configuration
+
+    configService.load()
+      .then(function (config) {
+        self.groups = config.groups;
+        self.showProgress = false;
+        self.showControls = true;
+      }, function (error) {
+        self.showProgress = false;
+        self.showControls = false;
+        $translate('CONFIG_LOAD_FAILED').then(function (message) {
+          showToast(message);
+        });
+      });
 
     /**
      * Listen for authnFailed events to force a logon
@@ -41,11 +59,11 @@
       $log.debug("Received authnFailed event");
       self.selected = 'login';
     });
-    
+
     /**
      * Listen to authn suceess events to navigate to
      * the panel.
-     * 
+     *
      */
     $scope.$on('authenSuceeded', function() {
       $log.debug("Received authenSuceeded event");

@@ -6,6 +6,7 @@
     [
       'configService',
       'powerControlService',
+      '$routeParams',
       '$log',
       '$mdToast',
       '$translate',
@@ -16,7 +17,7 @@
   /**
    * Main Controller for the Angular Material Starter App
    */
-  function PanelController(configService, powerControlService, $log, $mdToast, $translate, $scope) {
+  function PanelController(configService, powerControlService, $routeParams, $log, $mdToast, $translate, $scope) {
     var self = this;
 
     self.controls = [];
@@ -30,7 +31,7 @@
 
     configService.load()
       .then(function (config) {
-        self.controls = config.groups[0].controls;
+        self.controls = config.groups[$routeParams.group].controls;
         self.showProgress = false;
         self.showControls = true;
       }, function (error) {

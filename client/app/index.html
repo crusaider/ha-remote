@@ -21,9 +21,9 @@
   <link rel="manifest" href="scripts/manifest.json">
 
   <link rel="icon" type="image/png" href="images/png/apple-touch-icon-76x76.png" />
-  
+
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
- 
+
   <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
@@ -32,14 +32,14 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-  
-  
-  
+
+
+
   <style type="text/css">
     /**
      * Hide when Angular is not yet loaded and initialized
      **/
-    
+
     [ng\:cloak],
     [ng-cloak],
     [data-ng-cloak],
@@ -73,10 +73,11 @@
 
       <md-content layout-padding ng-show="ctrl.selected != 'login'">
         <md-list>
-          <md-list-item>
+          <md-list-item ng-repeat="g in ctrl.groups">
             <md-icon md-svg-icon="remote"></md-icon>
-            <md-button translate="MENU_PANEL" ng-click="ctrl.select('panel')" ng-class="{ 'md-warn' : ctrl.selected == 'panel'}" class="md-primary menu-item-button"
+            <md-button ng-click="ctrl.select('panel-'+$index)" ng-class="{ 'md-warn' : ctrl.selected == 'panel'}" class="md-primary menu-item-button"
               aria-label="Show control panel">
+              {{g.caption}}
             </md-button>
           </md-list-item>
         </md-list>
