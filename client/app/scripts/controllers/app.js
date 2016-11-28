@@ -27,14 +27,12 @@
 
 
     if (authnService.isAuthenticated()) {
-      self.selected = 'panel';
-      select('panel');
+      self.selected = 0;
     } else {
-      self.selected = 'login';
-      select('login');
+      doLogout();
     }
     self.toggleMenu = toggleMenu;
-    self.select = select;
+    self.doLogout = doLogout;
     self.groups = [];
 
     // Load controls configuration
@@ -67,8 +65,23 @@
      */
     $scope.$on('authenSuceeded', function() {
       $log.debug("Received authenSuceeded event");
-      self.selected = 'panel';
-      self.select('panel');
+      self.selected = 0;
+      $location.path('/'.concat('panel/0'));
+    });
+
+    /**
+     * Listen for route changes to update state of menu items
+     */
+
+    $scope.$on('$routeChangeSuccess', function(event,current,previous){
+      switch(current.$$route.controller) {
+        case 'AboutController':
+          return self.selected = 'about';
+        case 'PanelController':
+          return self.selected = current.params.group;
+        default:
+          $log.error('Invalid/unknown route');
+      }
     });
 
     // *********************************
@@ -83,20 +96,14 @@
     }
 
     /**
-     * Select a item from the menu, show the related main content
+     * Force invalidation of credentials and
+     * route to login view.
      */
-    function select(selection) {
-
-      if (selection == 'logout') {
+    function doLogout() {
         authnService.logout();
         self.selected = 'login';
         $location.path('/'.concat('login'));
-      } else {
-        $location.path('/'.concat(selection));
-        self.selected = selection;
-      }
     }
-
   }
 })();
 
