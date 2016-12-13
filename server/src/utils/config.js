@@ -21,7 +21,15 @@ function getConfigData() {
   clientConfig = {groups: []};
 
   for (let g of loadFromFile().groups) {
-    let cg = {caption: g.caption, id: sid.generate(), controls: []};
+    if ('enableSwitchAll' in g !== true) {
+      g.enableSwitchAll = true;
+    }
+    let cg = {
+      caption: g.caption,
+      enableSwitchAll: g.enableSwitchAll,
+      id: sid.generate(),
+      controls: []
+    };
     for (let c of g.controls) {
       let cid = sid.generate();
       let cc = {caption: c.caption, id: cid};

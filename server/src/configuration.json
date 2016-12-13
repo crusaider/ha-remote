@@ -1,7 +1,7 @@
 {
   "groups": [
     {
-      "caption": "Grupp 1",
+      "caption": "Snabbknappar",
       "controls": [
         {
           "backend": "telldus",
@@ -27,6 +27,99 @@
           "backend": "telldus",
           "caption": "Trädgård",
           "device_id": "1282078"
+        }
+      ]
+    },
+    {
+      "caption": "Innomhus",
+      "enableSwitchAll": false,
+      "controls": [
+        {
+          "backend": "telldus",
+          "caption": "Kontor",
+          "device_id": "1193618"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Tvättstuga",
+          "device_id": "1393388"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Vardagsrum",
+          "device_id": "1391857"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Sovrum + Gästrum",
+          "device_id": "1196553"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Allrum",
+          "device_id": "1196562"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Malin",
+          "device_id": "1391981"
+        }
+      ]
+    },
+    {
+      "caption": "Garage",
+      "enableSwitchAll": false,
+      "controls": [
+        {
+          "backend": "telldus",
+          "caption": "Garagebänk",
+          "device_id": "1268183"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Parkering",
+          "device_id": "1267076"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Laddare",
+          "device_id": "1274897"
+        }
+      ]
+    },
+    {
+      "caption": "Utomhus",
+      "enableSwitchAll": false,
+      "controls": [
+        {
+          "backend": "telldus",
+          "caption": "Parkering",
+          "device_id": "1267076"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Köksaltan",
+          "device_id": "1281811"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Matplats",
+          "device_id": "1281982"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Ballkong",
+          "device_id": "1269214"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Istappar",
+          "device_id": "1398017"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Balkongräcke",
+          "device_id": "1398053"
         }
       ]
     }

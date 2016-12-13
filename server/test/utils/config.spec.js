@@ -39,6 +39,29 @@ describe('config', () => {
       assert('controls' in data.groups[0]);
       assert('id' in data.groups[0].controls[0]);
     });
+
+    describe('enableSwitchAll', () => {
+      it('should have been set in all group objects', () => {
+        let data = config.clientConfig();
+
+        assert('enableSwitchAll' in data.groups[0]);
+        assert('enableSwitchAll' in data.groups[1]);
+      });
+
+      it('should default to true if not set', () => {
+        let data = config.clientConfig();
+
+        assert('enableSwitchAll' in data.groups[0]);
+        assert.equal(data.groups[0].enableSwitchAll, true);
+      });
+
+      it('should be set to false explicitly', () => {
+        let data = config.clientConfig();
+
+        assert('enableSwitchAll' in data.groups[1]);
+        assert.equal(data.groups[1].enableSwitchAll, false);
+      });
+    });
   });
 
   describe('#controlDescription', () => {

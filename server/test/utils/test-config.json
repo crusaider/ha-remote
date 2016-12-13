@@ -17,6 +17,7 @@
     },
     {
       "caption": "Group 2",
+      "enableSwitchAll": false,
       "controls": [
         {
           "backend": "telldus",
