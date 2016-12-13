@@ -20,7 +20,7 @@
   function PanelController(configService, powerControlService, $routeParams, $log, $mdToast, $translate, $scope) {
     var self = this;
 
-    self.controls = [];
+    self.group = {};
     self.showControls = false;
     self.showProgress = true;
     self.powerOffAll = powerOffAll;
@@ -31,7 +31,7 @@
 
     configService.load()
       .then(function (config) {
-        self.controls = config.groups[$routeParams.group].controls;
+        self.group = config.groups[$routeParams.group];
         self.showProgress = false;
         self.showControls = true;
       }, function (error) {
