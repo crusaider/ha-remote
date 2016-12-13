@@ -10,20 +10,19 @@
   angular
     .module('ha-remote')
     .controller('AppController',
-    [
-      'configService',
-      'authnService',
-      '$mdSidenav',
-      '$log',
-      '$translate',
-      '$scope',
-      '$location',
-      AppController
-    ]);
+      [
+        'configService',
+        'authnService',
+        '$mdSidenav',
+        '$log',
+        '$translate',
+        '$scope',
+        '$location',
+        AppController
+      ]);
 
   function AppController(configService, authnService, $mdSidenav, $log, $translate, $scope, $location) {
     var self = this;
-
 
 
     if (authnService.isAuthenticated()) {
@@ -35,6 +34,7 @@
     self.toggleMenu = toggleMenu;
     self.doLogout = doLogout;
     self.groups = [];
+    self.title = 'Title';
 
     /**
      * Listen for authnFailed events to force a logon
@@ -49,7 +49,7 @@
      * the panel.
      *
      */
-    $scope.$on('authenSuceeded', function() {
+    $scope.$on('authenSuceeded', function () {
       $log.debug("Received authenSuceeded event");
       loadGroups();
       self.selected = 0;
@@ -57,14 +57,25 @@
     });
 
     /**
-     * Listen for route changes to update state of menu items
+     * Listen for route changes to update state of menu items and
+     * toolbar title text.
      */
-    $scope.$on('$routeChangeSuccess', function(event,current,previous){
-      switch(current.$$route.controller) {
+    $scope.$on('$routeChangeSuccess', function (event, current, previous) {
+      switch (current.$$route.controller) {
         case 'AboutController':
+          $translate('MENU_ABOUT')
+            .then(function (message) {
+              self.title = message;
+            });
           return self.selected = 'about';
         case 'PanelController':
+          self.title = self.groups[current.params.group].caption;
           return self.selected = current.params.group;
+        case 'LoginController':
+          return $translate('MENU_LOGIN')
+            .then(function (message) {
+              self.title = message;
+            });
         default:
           $log.error('Invalid/unknown route');
       }
@@ -75,7 +86,7 @@
     // *********************************
 
     /**
-     * Load configuraton to render groups in the menu.
+     * Load configuration to render groups in the menu.
      */
     function loadGroups() {
       configService.load()
@@ -104,9 +115,9 @@
      * route to login view.
      */
     function doLogout() {
-        authnService.logout();
-        self.selected = 'login';
-        $location.path('/'.concat('login'));
+      authnService.logout();
+      self.selected = 'login';
+      $location.path('/'.concat('login'));
     }
   }
 })();
