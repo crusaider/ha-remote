@@ -1,0 +1,40 @@
+{
+  "groups": [
+    {
+      "caption": "Group 1",
+      "controls": [
+        {
+          "backend": "telldus",
+          "caption": "Lampor Plan 1",
+          "device_id": "1283624"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Lampor Plan 2",
+          "device_id": "1283628"
+        }
+      ]
+    },
+    {
+      "caption": "Group 2",
+      "enableSwitchAll": false,
+      "controls": [
+        {
+          "backend": "telldus",
+          "caption": "Garagebänk",
+          "device_id": "1268183"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Parkering",
+          "device_id": "1267076"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Trädgård",
+          "device_id": "1282078"
+        }
+      ]
+    }
+  ]
+}

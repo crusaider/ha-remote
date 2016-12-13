@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(express.static('../client/app'));
   app.use('/bower_components', express.static('../client/bower_components'));
 } else {
-  app.use(express.static('./client', {maxAge: '365d'}));
+  app.use(express.static(path.join(__dirname, 'client'), {maxAge: '365d'}));
 }
 
 //
@@ -84,7 +84,7 @@ app.use(function (req, res/* , next */) {
     };
   } else {
     options = {
-      root: path.resolve(__dirname, '/client')
+      root: path.join(__dirname, '/client')
     };
   }
 

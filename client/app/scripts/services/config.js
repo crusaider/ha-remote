@@ -1,14 +1,10 @@
 (function () {
   'use strict';
 
-  angular.module('ha-remote.panel')
+  angular.module('ha-remote')
     .service('configService', ['$q', '$http', '$log', ConfigService]);
 
   /**
-   * Users DataService
-   * Uses embedded, hard-coded data model; acts asynchronously to simulate
-   * remote data service call(s).
-   *
    * @returns {{load: Function}}
    * @constructor
    */

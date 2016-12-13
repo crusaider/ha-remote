@@ -35,15 +35,15 @@
         })
         .when( '/about', {
             templateUrl: 'views/about.html',
-            controller: 'AboutController'  
+            controller: 'AboutController'
         })
-        .when('/panel', {
+        .when('/panel/:group', {
             templateUrl: 'views/panel.html',
             controller: 'PanelController',
             controllerAs: 'ctrl'
         })
             .otherwise({
-                redirectTo: '/panel'
+                redirectTo: '/panel/0'
         });
   });
 

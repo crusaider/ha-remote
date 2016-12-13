@@ -1,6 +1,6 @@
 /**
- * Top Level controller for the app. 
- * 
+ * Top Level controller for the app.
+ *
  * @author Jonas <jonas.m.andreasson@gmail.com>
  * @license MIT
  */
@@ -11,6 +11,7 @@
     .module('ha-remote')
     .controller('AppController',
     [
+      'configService',
       'authnService',
       '$mdSidenav',
       '$log',
@@ -20,19 +21,20 @@
       AppController
     ]);
 
-  function AppController(authnService, $mdSidenav, $log, $translate, $scope, $location) {
+  function AppController(configService, authnService, $mdSidenav, $log, $translate, $scope, $location) {
     var self = this;
 
+
+
     if (authnService.isAuthenticated()) {
-      self.selected = 'panel';
-      select('panel');
+      self.selected = 0;
+      loadGroups();
     } else {
-      self.selected = 'login';
-      select('login');
+      doLogout();
     }
     self.toggleMenu = toggleMenu;
-    self.select = select;
-
+    self.doLogout = doLogout;
+    self.groups = [];
 
     /**
      * Listen for authnFailed events to force a logon
@@ -41,21 +43,54 @@
       $log.debug("Received authnFailed event");
       self.selected = 'login';
     });
-    
+
     /**
      * Listen to authn suceess events to navigate to
      * the panel.
-     * 
+     *
      */
     $scope.$on('authenSuceeded', function() {
       $log.debug("Received authenSuceeded event");
-      self.selected = 'panel';
-      self.select('panel');
+      loadGroups();
+      self.selected = 0;
+      $location.path('/'.concat('panel/0'));
+    });
+
+    /**
+     * Listen for route changes to update state of menu items
+     */
+    $scope.$on('$routeChangeSuccess', function(event,current,previous){
+      switch(current.$$route.controller) {
+        case 'AboutController':
+          return self.selected = 'about';
+        case 'PanelController':
+          return self.selected = current.params.group;
+        default:
+          $log.error('Invalid/unknown route');
+      }
     });
 
     // *********************************
     // Internal methods
     // *********************************
+
+    /**
+     * Load configuraton to render groups in the menu.
+     */
+    function loadGroups() {
+      configService.load()
+        .then(function (config) {
+          self.groups = config.groups;
+          self.showProgress = false;
+          self.showControls = true;
+        }, function (error) {
+          self.showProgress = false;
+          self.showControls = false;
+          $translate('CONFIG_LOAD_FAILED').then(function (message) {
+            showToast(message);
+          });
+        });
+    }
 
     /**
      * Hide or Show the 'left' sideNav area
@@ -65,20 +100,14 @@
     }
 
     /**
-     * Select a item from the menu, show the related main content
+     * Force invalidation of credentials and
+     * route to login view.
      */
-    function select(selection) {
-
-      if (selection == 'logout') {
+    function doLogout() {
         authnService.logout();
         self.selected = 'login';
         $location.path('/'.concat('login'));
-      } else {
-        $location.path('/'.concat(selection));
-        self.selected = selection;
-      }
     }
-
   }
 })();
 

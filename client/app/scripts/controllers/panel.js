@@ -6,6 +6,7 @@
     [
       'configService',
       'powerControlService',
+      '$routeParams',
       '$log',
       '$mdToast',
       '$translate',
@@ -16,10 +17,10 @@
   /**
    * Main Controller for the Angular Material Starter App
    */
-  function PanelController(configService, powerControlService, $log, $mdToast, $translate, $scope) {
+  function PanelController(configService, powerControlService, $routeParams, $log, $mdToast, $translate, $scope) {
     var self = this;
 
-    self.controls = [];
+    self.group = {};
     self.showControls = false;
     self.showProgress = true;
     self.powerOffAll = powerOffAll;
@@ -29,8 +30,8 @@
     // Load controls configuration
 
     configService.load()
-      .then(function (controls) {
-        self.controls = controls;
+      .then(function (config) {
+        self.group = config.groups[$routeParams.group];
         self.showProgress = false;
         self.showControls = true;
       }, function (error) {
@@ -42,7 +43,7 @@
       });
 
     /**
-    * 
+    *
     * Listen for events to hide or show the progress bar
     *
     */
@@ -111,7 +112,7 @@
     }
 
     /**
-     * Update state of all child controls when the window has 
+     * Update state of all child controls when the window has
      * gotten focus.
      */
     function onWindowFocus() {
@@ -145,7 +146,7 @@
       $mdToast.show($mdToast.simple().textContent(message));
     }
     /**
-      * Called when one of the calls to power on a single 
+      * Called when one of the calls to power on a single
       * device has been completed regardless of sucess or failure.
       */
 
@@ -170,7 +171,7 @@
     }
 
     /**
-     * Called when one of the calls to power off a single 
+     * Called when one of the calls to power off a single
      * device has been completed regardless of sucess or failure.
      */
 
