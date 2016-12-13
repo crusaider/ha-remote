@@ -11,19 +11,19 @@
 
   <!-- Safari on iOS specifics -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="apple-touch-icon" href="assets/png/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" href="images/png/apple-touch-icon-180x180.png">
   <link rel="apple-touch-icon" sizes="167x167" href="images/png/apple-touch-icon-167x167.png">
   <link rel="apple-touch-icon" sizes="152x152" href="images/png/apple-touch-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="120x120" href="images/png/apple-touch-icon-120x120.png">
   <link rel="apple-touch-icon" sizes="76x76" href="images/png/apple-touch-icon-76x76.png">
 
   <!-- Android/Chrome manifest -->
-  <link rel="manifest" href="scripts/manifest.json">
+  <link rel="manifest" href="manifest.json">
 
   <link rel="icon" type="image/png" href="images/png/apple-touch-icon-76x76.png" />
-  
+
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
- 
+
   <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
@@ -32,14 +32,14 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-  
-  
-  
+
+
+
   <style type="text/css">
     /**
      * Hide when Angular is not yet loaded and initialized
      **/
-    
+
     [ng\:cloak],
     [ng-cloak],
     [data-ng-cloak],
@@ -73,10 +73,11 @@
 
       <md-content layout-padding ng-show="ctrl.selected != 'login'">
         <md-list>
-          <md-list-item>
+          <md-list-item ng-repeat="g in ctrl.groups">
             <md-icon md-svg-icon="remote"></md-icon>
-            <md-button translate="MENU_PANEL" ng-click="ctrl.select('panel')" ng-class="{ 'md-warn' : ctrl.selected == 'panel'}" class="md-primary menu-item-button"
+            <md-button ng-href="#/panel/{{$index}}" ng-class="{ 'md-warn' : ctrl.selected == $index}" class="md-primary menu-item-button"
               aria-label="Show control panel">
+              {{g.caption}}
             </md-button>
           </md-list-item>
         </md-list>
@@ -88,19 +89,19 @@
         <md-list>
           <md-list-item ng-show="ctrl.selected != 'login'">
             <md-icon md-svg-icon="information-outline"></md-icon>
-            <md-button translate="MENU_ABOUT" ng-click="ctrl.select('about')" ng-class="{ 'md-warn' : ctrl.selected == 'about'}" class="md-primary menu-item-button"
+            <md-button translate="MENU_ABOUT" ng-href="/#/about" ng-class="{ 'md-warn' : ctrl.selected == 'about'}" class="md-primary menu-item-button"
               aria-label="Show information about the app">
             </md-button>
           </md-list-item>
           <md-list-item ng-show="ctrl.selected != 'login'">
             <md-icon md-svg-icon="logout"></md-icon>
-            <md-button translate="MENU_LOGOUT" ng-click="ctrl.select('logout')" ng-class="{ 'md-warn' : ctrl.selected == 'login'}" class="md-primary menu-item-button"
+            <md-button translate="MENU_LOGOUT" ng-click="ctrl.doLogout()" ng-class="{ 'md-warn' : ctrl.selected == 'login'}" class="md-primary menu-item-button"
               aria-label="Log out">
             </md-button>
           </md-list-item>
           <md-list-item ng-show="ctrl.selected == 'login'">
             <md-icon md-svg-icon="login"></md-icon>
-            <md-button translate="MENU_LOGIN" ng-click="ctrl.select('login')" ng-class="{ 'md-warn' : ctrl.selected == 'login'}" class="md-primary menu-item-button"
+            <md-button translate="MENU_LOGIN" ng-href="/#/login" ng-class="{ 'md-warn' : ctrl.selected == 'login'}" class="md-primary menu-item-button"
               aria-label="Log out">
             </md-button>
           </md-list-item>

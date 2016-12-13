@@ -1,21 +1,20 @@
 'use strict';
 
-var express = require('express');
+const express = require('express');
 
-var logger = require('../utils/logger');
-var config = require('../utils/config');
-var ha = require('../ha-api');
-var telldus = require('../telldus-api');
+const logger = require('../utils/logger');
+const config = require('../utils/config');
+const ha = require('../ha-api');
+const telldus = require('../telldus-api');
 
-var BACKEND_HA = 'ha';
-var BACKEND_TELLDUS = 'telldus';
+const BACKEND_HA = 'ha';
+const BACKEND_TELLDUS = 'telldus';
 
-// noinspection Eslint
-var router = express.Router(); // eslint-disable-line new-cap
+const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/controls/:id/poweron')
   .post(function (req, res) {
-    var control = config.controlDescription(Number(req.params.id));
+    let control = config.controlDescription(req.params.id);
 
     switch (control.backend) {
       case BACKEND_HA:
@@ -48,7 +47,7 @@ router.route('/controls/:id/poweron')
 
 router.route('/controls/:id/poweroff')
   .post(function (req, res) {
-    var control = config.controlDescription(Number(req.params.id));
+    let control = config.controlDescription(req.params.id);
 
     switch (control.backend) {
       case BACKEND_HA:
@@ -83,7 +82,7 @@ router.route('/controls/:id/poweroff')
 
 router.route('/controls/:id')
   .get(function (req, res) {
-    var control = config.controlDescription(Number(req.params.id));
+    let control = config.controlDescription(req.params.id);
 
     switch (control.backend) {
       case BACKEND_HA:

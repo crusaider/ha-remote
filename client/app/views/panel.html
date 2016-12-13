@@ -1,15 +1,15 @@
 <div bn-window-focus="ctrl.onWindowFocus()">
-  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.showProgress"></md-progress-linear>
+  <md-progress-linear md-mode="indeterminate" ng-disabled="!ctrl.showProgress"></md-progress-linear>
   <md-card ng-show="ctrl.showControls">
     <md-card-content>
-      <div ng-repeat-start="c in ctrl.controls">
+      <div ng-repeat-start="c in ctrl.group.controls">
         <control-widget control="c"></control-widget>
       </div>
       <md-divider ng-repeat-end ng-if="!$last"></md-divider>
     </md-card-content>
   </md-card>
-  <md-card ng-show="ctrl.showControls">
-    <md-card-content>
+  <md-card ng-show="ctrl.showControls && ctrl.group.enableSwitchAll">
+    <md-card-content ng.show="">
       <div layout="row" layout-align="space-between center">
         <md-button ng-click="ctrl.powerOnAll()" class="md-fab md-warn" aria-label="Power On All">
           <md-icon md-svg-src="power-on"></md-icon>
