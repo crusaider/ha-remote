@@ -28,27 +28,13 @@
 
     if (authnService.isAuthenticated()) {
       self.selected = 0;
+      loadGroups();
     } else {
       doLogout();
     }
     self.toggleMenu = toggleMenu;
     self.doLogout = doLogout;
     self.groups = [];
-
-    // Load controls configuration
-
-    configService.load()
-      .then(function (config) {
-        self.groups = config.groups;
-        self.showProgress = false;
-        self.showControls = true;
-      }, function (error) {
-        self.showProgress = false;
-        self.showControls = false;
-        $translate('CONFIG_LOAD_FAILED').then(function (message) {
-          showToast(message);
-        });
-      });
 
     /**
      * Listen for authnFailed events to force a logon
@@ -65,6 +51,7 @@
      */
     $scope.$on('authenSuceeded', function() {
       $log.debug("Received authenSuceeded event");
+      loadGroups();
       self.selected = 0;
       $location.path('/'.concat('panel/0'));
     });
@@ -72,7 +59,6 @@
     /**
      * Listen for route changes to update state of menu items
      */
-
     $scope.$on('$routeChangeSuccess', function(event,current,previous){
       switch(current.$$route.controller) {
         case 'AboutController':
@@ -87,6 +73,24 @@
     // *********************************
     // Internal methods
     // *********************************
+
+    /**
+     * Load configuraton to render groups in the menu.
+     */
+    function loadGroups() {
+      configService.load()
+        .then(function (config) {
+          self.groups = config.groups;
+          self.showProgress = false;
+          self.showControls = true;
+        }, function (error) {
+          self.showProgress = false;
+          self.showControls = false;
+          $translate('CONFIG_LOAD_FAILED').then(function (message) {
+            showToast(message);
+          });
+        });
+    }
 
     /**
      * Hide or Show the 'left' sideNav area
