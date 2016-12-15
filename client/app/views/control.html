@@ -11,5 +11,5 @@
       <md-icon md-svg-src="power-off"></md-icon>
     </md-button>
   </div>
-  <md-slider ng-if="control.type === 'dimmer'" min="0" max="100" ng-model="c.dimmerValue" ng-change="c.onSliderChange()" aria-label="dimmer"></md-slider>
+  <md-slider ng-if="control.type === 'dimmer'" min="0" max="255" ng-model="c.dimmerValue" ng-change="c.onSliderChange()" aria-label="dimmer"></md-slider>
 </div>
