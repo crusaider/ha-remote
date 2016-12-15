@@ -141,15 +141,22 @@ function getDeviceState(id, cb) {
           return cb(response.error);
         }
 
+        let stateObject = {};
+
         switch (parseInt(response.state, 10)) {
           case constants.COMMANDS.on:
-            return cb(null, 'on');
+            stateObject.state = 'on';
+            break;
           case constants.COMMANDS.off:
-            return cb(null, 'off');
+            stateObject.state = 'off';
+            break;
           default:
             logger.error('Unknown state %s of telldus device %s', response.state, id);
-            return cb(null, null);
+            stateObject.state = null;
         }
+        stateObject.value = response.statevalue;
+
+        return cb(null, stateObject);
       },
       function (response) {
         logger.error('Call to telldus device info failed, error message %s', response);

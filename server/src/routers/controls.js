@@ -104,7 +104,7 @@ router.route('/controls/:id')
             return res.status(500).send(err);
           }
 
-          return res.json({state: state});
+          return res.json(state);
         });
 
         break;
