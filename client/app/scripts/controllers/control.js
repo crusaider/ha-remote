@@ -11,15 +11,15 @@
   angular
     .module('ha-remote.panel')
     .controller('ControlController',
-    [
-      'powerControlService',
-      '$log',
-      '$mdToast',
-      '$translate',
-      '$scope',
-      '$timeout',
-      ControlController
-    ]);
+      [
+        'powerControlService',
+        '$log',
+        '$mdToast',
+        '$translate',
+        '$scope',
+        '$timeout',
+        ControlController
+      ]);
 
   function ControlController(powerControlService, $log, $mdToast, $translate, $scope, $timeout) {
     var self = this;
@@ -29,6 +29,7 @@
 
     self.powerOn = powerOn;
     self.powerOff = powerOff;
+    self.slider = slider;
     self.state = 'state-unknown';
 
     updateState();
@@ -44,6 +45,18 @@
     // Internal methods
     // *********************************
 
+    var dimmer;
+
+    function slider(value) {
+      if (angular.isDefined(value)) {
+        dimmer = value;
+        $log.debug("setSlider");
+      } else {
+        $log.debug("getSlider");
+        return dimmer;
+      }
+    }
+
     /**
      * Power on a control
      */
@@ -54,7 +67,7 @@
       powerControlService.powerOn(control.id)
         .then(function () {
           self.showProgress = false;
-          $translate('POWER_ON_SUCCESS', { control_caption: control.caption })
+          $translate('POWER_ON_SUCCESS', {control_caption: control.caption})
             .then(function (message) {
               showToast(message);
             });
@@ -62,7 +75,7 @@
           hideProgress();
         }, function () {
           self.showProgress = false;
-          $translate('POWER_ON_FAILURE', { control_caption: control.caption })
+          $translate('POWER_ON_FAILURE', {control_caption: control.caption})
             .then(function (message) {
               showToast(message);
             });
@@ -80,14 +93,14 @@
 
       powerControlService.powerOff(control.id)
         .then(function () {
-          $translate('POWER_OFF_SUCCESS', { control_caption: control.caption })
+          $translate('POWER_OFF_SUCCESS', {control_caption: control.caption})
             .then(function (message) {
               showToast(message);
             });
           updateState();
           hideProgress();
         }, function () {
-          $translate('POWER_OFF_FAILURE', { control_caption: control.caption })
+          $translate('POWER_OFF_FAILURE', {control_caption: control.caption})
             .then(function (message) {
               showToast(message);
             });
@@ -101,7 +114,7 @@
      * update the indicator on screen
      *
      * @param {boolean} final - If true, only on call will be executed,
-     * if falsy a second cal to update state will be done after a delay.
+     * if falsy a second call to update state will be done after a delay.
      */
     function updateState(final) {
 
@@ -136,7 +149,9 @@
     function rescheduleUpdateState(final) {
       if (!final) {
         $log.debug("Rescheduling update state of %s", self.control.caption);
-        $timeout(function () { updateState(true) }, 500);
+        $timeout(function () {
+          updateState(true)
+        }, 500);
       }
     }
 

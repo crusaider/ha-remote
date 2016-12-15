@@ -1,12 +1,15 @@
-<div ng-controller="ControlController as c" layout="row" layout-align="space-between center">
-  <md-button ng-click="c.powerOn( control )" class="md-fab md-primary" aria-label="Power On">
-    <md-icon md-svg-src="power-on"></md-icon>
-  </md-button>
-  <div layout="column" layout-align="center center">
-    <div class="control-led" ng-class="c.state"></div>
-    <md-card-title>{{control.caption}}</md-card-title>
+<div ng-controller="ControlController as c" layout="column" >
+  <div layout="row" layout-align="space-between center">
+    <md-button ng-click="c.powerOn( control )" class="md-fab md-primary" aria-label="Power On">
+      <md-icon md-svg-src="power-on"></md-icon>
+    </md-button>
+    <div layout="column" layout-align="center center">
+      <div class="control-led" ng-class="c.state"></div>
+      <md-card-title>{{control.caption}}</md-card-title>
+    </div>
+    <md-button ng-click="c.powerOff( control )" class="md-fab md-primary" aria-label="Power Off">
+      <md-icon md-svg-src="power-off"></md-icon>
+    </md-button>
   </div>
-  <md-button ng-click="c.powerOff( control )" class="md-fab md-primary" aria-label="Power Off">
-    <md-icon md-svg-src="power-off"></md-icon>
-  </md-button>
+  <md-slider ng-if="control.type === 'dimmer'" min="0" max="100" ng-model="c.slider" ng-model-options="{getterSetter : true}" aria-label="dimmer"></md-slider>
 </div>
