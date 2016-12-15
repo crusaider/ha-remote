@@ -29,8 +29,9 @@
 
     self.powerOn = powerOn;
     self.powerOff = powerOff;
-    self.slider = slider;
+    self.onSliderChange = onSliderChange;
     self.state = 'state-unknown';
+    self.dimmerValue = -1;
 
     updateState();
 
@@ -45,16 +46,8 @@
     // Internal methods
     // *********************************
 
-    var dimmer;
-
-    function slider(value) {
-      if (angular.isDefined(value)) {
-        dimmer = value;
-        $log.debug("setSlider");
-      } else {
-        $log.debug("getSlider");
-        return dimmer;
-      }
+    function onSliderChange() {
+      $log.debug("Slider changed %s", self.dimmerValue);
     }
 
     /**
@@ -132,6 +125,12 @@
               self.state = "state-unknown";
           }
           $log.debug("Set device state of device %s to %s", self.control.caption, self.state);
+
+          if( self.control.type === 'dimmer') {
+            self.dimmerValue = parseInt(data.value,10);
+            $log.debug("Set device dimmer value of device %s to %s", self.control.caption, self.dimmerValue);
+          }
+
           rescheduleUpdateState(final);
         }, function () {
           self.state = "unknown";
