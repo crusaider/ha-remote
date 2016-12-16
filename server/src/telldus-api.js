@@ -35,6 +35,7 @@ let config = {
 module.exports = {
   turnOn: turnOn,
   turnOff: turnOff,
+  dim: dim,
   getDeviceState: getDeviceState,
   listDevices: listDevices,
 
@@ -100,7 +101,7 @@ function turnOn(id, cb) {
 function turnOff(id, cb) {
   devices.turnOff(id).then(
     function (response) {
-      logger.debug('Sucessfull call to telldus turn off device, response is %s', response);
+      logger.debug('Sucessfull call to telldus turn off device, response is %s', JSON.stringify(response));
 
       if (isErrorResponse(response)) {
         return cb(response.error);
@@ -112,6 +113,28 @@ function turnOff(id, cb) {
       return cb(result);
     }
   );
+}
+
+/**
+ * Sets the dimmer value of a device
+ */
+function dim(id, level, cb) {
+  api.request('/device/dim?' +
+    querystring.stringify({id: id, level: level}))
+    .then(
+      function (response) {
+        logger.debug('Sucessfull call to telldus dim device, response is %s', JSON.stringify(response));
+
+        if (isErrorResponse(response)) {
+          return cb(response.error);
+        }
+        return cb(null);
+      },
+      function (result) {
+        logger.error('Call to telldus dim device failed, error message %s', result);
+        return cb(result);
+      }
+    );
 }
 
 /**
@@ -135,7 +158,7 @@ function getDeviceState(id, cb) {
     querystring.stringify({id: id, supportedMethods: constants.SUPPORTED_METHODS}))
     .then(
       function (response) {
-        logger.debug('Sucessfull call to telldus device info, result is %s', response);
+        logger.debug('Sucessfull call to telldus device info, result is %s', JSON.stringify(response));
 
         if (isErrorResponse(response)) {
           return cb(response.error);
@@ -149,6 +172,9 @@ function getDeviceState(id, cb) {
             break;
           case constants.COMMANDS.off:
             stateObject.state = 'off';
+            break;
+          case constants.COMMANDS.dim:
+            stateObject.state = 'dim';
             break;
           default:
             logger.error('Unknown state %s of telldus device %s', response.state, id);
@@ -175,7 +201,7 @@ function listDevices(cb) {
     querystring.stringify({includeIgnored: 1, supportedMethods: constants.SUPPORTED_METHODS}))
     .then(
       function (response) {
-        logger.debug('Sucessfull call to telldus list devices, result is %s', response);
+        logger.debug('Sucessfull call to telldus list devices, result is %s', JSON.stringify(response));
 
         if (isErrorResponse(response)) {
           return cb(response.error);
