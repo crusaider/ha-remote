@@ -33,6 +33,18 @@
           })
       },
 
+      dim: function (id, level) {
+
+        return $http.post('/api/controls/' + id + '/dim', { level: level})
+          .then(function (res) {
+            $log.debug("Called dim API for control id:" + id);
+            return res.data;
+          }, function (res) {
+            $log.info("Call to " + res.config.url + " failed with status " + res.status);
+            return $q.reject(res.data)
+          })
+      },
+
       getState: function (id) {
 
         return $http.get('/api/controls/' + id)
