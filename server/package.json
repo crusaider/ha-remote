@@ -1,6 +1,6 @@
 {
   "name": "ha-remote-server",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "description": "ha-remote server component",
   "homepage": "",
