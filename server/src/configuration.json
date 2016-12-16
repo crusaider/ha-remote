@@ -27,6 +27,11 @@
           "backend": "telldus",
           "caption": "Trädgård",
           "device_id": "1282078"
+        },
+        {
+          "backend": "telldus",
+          "caption": "Jonas sänglampa",
+          "device_id": "1274935"
         }
       ]
     },

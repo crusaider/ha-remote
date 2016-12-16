@@ -10,46 +10,18 @@
 
 'use strict';
 
-/**
- * Constants - stolen with pride from
- * https://github.com/jornare/node-live-telldus/blob/master/src/constants.js
- */
-
-let constants = {
-  COMMANDS: {
-    on: 0x0001,
-    off: 0x0002,
-    bell: 0x0004,
-    dim: 0x0010,
-    up: 0x0080,
-    down: 0x0100
-  },
-  METHODS: {
-    0x0001: 'on',
-    0x0002: 'off',
-    0x0004: 'bell',
-    0x0010: 'dim',
-    0x0080: 'up',
-    0x0100: 'down'
-  }
-};
-
-constants.SUPPORTED_METHODS = Object.keys(constants.COMMANDS)
-  .reduce(function (previous, key) {
-    return previous +
-      constants.COMMANDS[key];
-  }, 0);
+const constants = require('telldus-live-constants');
 
 // var path = require('path');
-var logger = require('./utils/logger');
-var querystring = require('querystring');
-var telldus = require('telldus-live-promise');
-var env = require('./environment');
+const logger = require('./utils/logger');
+const querystring = require('querystring');
+const telldus = require('telldus-live-promise');
+const env = require('./environment');
 
 /**
  * Get telldus API secrets from the environment.
  */
-var config = {
+let config = {
   telldusPublicKey: env.telldusPublicKey,
   telldusPrivateKey: env.telldusPrivateKey,
   telldusToken: env.telldusToken,
@@ -63,7 +35,9 @@ var config = {
 module.exports = {
   turnOn: turnOn,
   turnOff: turnOff,
+  dim: dim,
   getDeviceState: getDeviceState,
+  listDevices: listDevices,
 
   isPublicKeySet: config.telldusPublicKey !== null,
   isPrivateKeySet: config.telldusPrivateKey !== null,
@@ -74,8 +48,8 @@ module.exports = {
 /**
  * Telldus API objects.
  */
-var api = telldus.API(config); // eslint-disable-line new-cap
-var devices = telldus.Devices(api); // eslint-disable-line new-cap
+const api = telldus.API(config); // eslint-disable-line new-cap
+const devices = telldus.Devices(api); // eslint-disable-line new-cap
 
 /**
  * Turns a telldus device on
@@ -127,7 +101,7 @@ function turnOn(id, cb) {
 function turnOff(id, cb) {
   devices.turnOff(id).then(
     function (response) {
-      logger.debug('Sucessfull call to telldus turn off device, response is %s', response);
+      logger.debug('Sucessfull call to telldus turn off device, response is %s', JSON.stringify(response));
 
       if (isErrorResponse(response)) {
         return cb(response.error);
@@ -139,6 +113,28 @@ function turnOff(id, cb) {
       return cb(result);
     }
   );
+}
+
+/**
+ * Sets the dimmer value of a device
+ */
+function dim(id, level, cb) {
+  api.request('/device/dim?' +
+    querystring.stringify({id: id, level: level}))
+    .then(
+      function (response) {
+        logger.debug('Sucessfull call to telldus dim device, response is %s', JSON.stringify(response));
+
+        if (isErrorResponse(response)) {
+          return cb(response.error);
+        }
+        return cb(null);
+      },
+      function (result) {
+        logger.error('Call to telldus dim device failed, error message %s', result);
+        return cb(result);
+      }
+    );
 }
 
 /**
@@ -162,24 +158,59 @@ function getDeviceState(id, cb) {
     querystring.stringify({id: id, supportedMethods: constants.SUPPORTED_METHODS}))
     .then(
       function (response) {
-        logger.debug('Sucessfull call to telldus device info, result is %s', response);
+        logger.debug('Sucessfull call to telldus device info, result is %s', JSON.stringify(response));
 
         if (isErrorResponse(response)) {
           return cb(response.error);
         }
 
+        let stateObject = {};
+
         switch (parseInt(response.state, 10)) {
           case constants.COMMANDS.on:
-            return cb(null, 'on');
+            stateObject.state = 'on';
+            break;
           case constants.COMMANDS.off:
-            return cb(null, 'off');
+            stateObject.state = 'off';
+            break;
+          case constants.COMMANDS.dim:
+            stateObject.state = 'dim';
+            break;
           default:
             logger.error('Unknown state %s of telldus device %s', response.state, id);
-            return cb(null, null);
+            stateObject.state = null;
         }
+        stateObject.value = response.statevalue;
+
+        return cb(null, stateObject);
       },
       function (response) {
         logger.error('Call to telldus device info failed, error message %s', response);
+        return cb(response);
+      });
+}
+
+/**
+ * Retrives information about all devices associated with the telldus account
+ *
+ * @param cb Callback that will recieve the list of device information
+ */
+
+function listDevices(cb) {
+  api.request('/devices/list?' +
+    querystring.stringify({includeIgnored: 1, supportedMethods: constants.SUPPORTED_METHODS}))
+    .then(
+      function (response) {
+        logger.debug('Sucessfull call to telldus list devices, result is %s', JSON.stringify(response));
+
+        if (isErrorResponse(response)) {
+          return cb(response.error);
+        }
+
+        cb(null, response);
+      },
+      function (response) {
+        logger.error('Call to telldus list devices failed, error message %s', response);
         return cb(response);
       });
 }

@@ -80,6 +80,32 @@ router.route('/controls/:id/poweroff')
     }
   });
 
+router.route('/controls/:id/dim')
+  .post(function (req, res) {
+    let control = config.controlDescription(req.params.id);
+
+    switch (control.backend) {
+      case BACKEND_HA:
+        // TODO: Implement for HA backend
+        logger.info('Dimmer not implemented for HA backend');
+        return res.status(500).send({error: 'Dimmer not implemented for HA backend'});
+      case BACKEND_TELLDUS:
+        telldus.dim(control.device_id, req.body.level, function (err) {
+          if (err) {
+            logger.error('Failed to call turnOff API for device: %s, error message: %s',
+              control.device_id, err);
+            return res.status(500).send(err);
+          }
+          return res.status(204).send();
+        });
+        break;
+      default:
+        logger.error('Unknown backend %s for device %s', control.backend,
+          control.device_id);
+        return res.status(500).send();
+    }
+  });
+
 router.route('/controls/:id')
   .get(function (req, res) {
     let control = config.controlDescription(req.params.id);
@@ -104,7 +130,7 @@ router.route('/controls/:id')
             return res.status(500).send(err);
           }
 
-          return res.json({state: state});
+          return res.json(state);
         });
 
         break;
